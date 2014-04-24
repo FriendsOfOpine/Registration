@@ -50,7 +50,7 @@ class Application {
         });
 
         $this->route->get('/Registration/{eventSlug}/attendees/{orderId}', function ($eventSlug, $orderId) {
-            $event = []; $order = []; $app = '', $layout = '';
+            $event = []; $order = []; $app = ''; $layout = '';
             if ($this->inputValidation('attendees', $eventSlug, $orderId, $event, $order)) {
                 return;
             }
@@ -58,7 +58,7 @@ class Application {
         });
 
         $this->route->get('/Registration/{eventSlug}/payment/{orderId}', function ($eventSlug, $orderId) {
-            $event = []; $order = []; $app = '', $layout = '';
+            $event = []; $order = []; $app = ''; $layout = '';
             if ($this->inputValidation('payment', $eventSlug, $orderId, $event, $order)) {
                 return;
             }
@@ -66,7 +66,7 @@ class Application {
         });
 
         $this->route->get('/Registration/{eventSlug}/receipt/{orderId}', function ($eventSlug, $orderId) {
-            $event = []; $order = []; $app = '', $layout = '';
+            $event = []; $order = []; $app = ''; $layout = '';
             if ($this->inputValidation('receipt', $eventSlug, $orderId, $event, $order)) {
                 return;
             }
@@ -74,7 +74,7 @@ class Application {
         });
     }
 
-    private funciton inputValidation ($mode, $eventSlug, $orderId=false, &$event=false, &$order=false, &$app=false, &$layout=false) {
+    private function inputValidation ($mode, $eventSlug, $orderId=false, &$event=false, &$order=false, &$app=false, &$layout=false) {
         $event = $this->registration->eventFindBySlug($eventSlug);
         if ($event === false) {
             $this->error('Unknown event');
