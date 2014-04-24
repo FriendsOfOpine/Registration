@@ -41,21 +41,70 @@ class Application {
     }
 
     public function app () {
-        $this->route->get('/Registration/{event}', function ($event) {
-            echo 'Registration for: ', $event;
+        $this->route->get('/Registration/{eventSlug}', function ($eventSlug) {
+            $event = []; $app = ''; $layout = '';
+            if ($this->inputValidation('options', $eventSlug, false, $event, false, $app, $layout)) {
+                return;
+            }
+            $this->separation->app($app)->layout($layout)->template()->write();
         });
 
-        $this->route->get('/Registration/{event}/attendees', function () {
-            echo 'Registration attendees for: ', $event;
+        $this->route->get('/Registration/{eventSlug}/attendees/{orderId}', function ($eventSlug, $orderId) {
+            $event = []; $order = []; $app = '', $layout = '';
+            if ($this->inputValidation('attendees', $eventSlug, $orderId, $event, $order)) {
+                return;
+            }
+            $this->separation->app($app)->layout($layout)->template()->write();
         });
 
-        $this->route->get('/Registration/{event}/payment', function () {
-            echo 'Registration attendees for: ', $event;
+        $this->route->get('/Registration/{eventSlug}/payment/{orderId}', function ($eventSlug, $orderId) {
+            $event = []; $order = []; $app = '', $layout = '';
+            if ($this->inputValidation('payment', $eventSlug, $orderId, $event, $order)) {
+                return;
+            }
+            $this->separation->app($app)->layout($layout)->template()->write();
         });
 
-        $this->route->get('/Registration/{event}/receipt', function () {
-            echo 'Registration attendees for: ', $event;
+        $this->route->get('/Registration/{eventSlug}/receipt/{orderId}', function ($eventSlug, $orderId) {
+            $event = []; $order = []; $app = '', $layout = '';
+            if ($this->inputValidation('receipt', $eventSlug, $orderId, $event, $order)) {
+                return;
+            }
+            $this->separation->app($app)->layout($layout)->template()->write();
         });
+    }
+
+    private funciton inputValidation ($mode, $eventSlug, $orderId=false, &$event=false, &$order=false, &$app=false, &$layout=false) {
+        $event = $this->registration->eventFindBySlug($eventSlug);
+        if ($event === false) {
+            $this->error('Unknown event');
+            return false;
+        }
+        if (in_array($mode, ['attendees', 'payment', 'receipt'])) {
+            $order = $this->registration->orderFindById($orderId);
+            if ($order === false) {
+                $this->error('Invalid order.');
+                return false;
+            }
+            if (in_array($mode, ['attendees', 'payment'])) {
+                if (isset($order['status']) == 'completed') {
+                    $this->error('Order has been completed.');
+                    return false;
+                }
+            }
+        }
+        $app = 'bundles/Registration/app/' . $mode;
+        $layout = 'Registration/' . $mode;
+        if (!empty($event['config_' . $mode . '_app'])) {
+            $app = $event['config_' . $mode . '_app'];
+        }
+        if (!empty($event['config_' . $mode . '_layout'])) {
+            $layout = $event['config_' . $mode . '_layout'];
+        }
+    }
+
+    private function error ($message) {
+        $this->separation->app()->layout('error')->template()->write();
     }
 
     public function build ($bundleRoot) {}

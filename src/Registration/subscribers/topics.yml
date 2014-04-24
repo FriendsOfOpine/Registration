@@ -1,0 +1,8 @@
+topics:
+    Registration-form-options-save: 
+        Authenticate: ['post', 'authentication']
+    Registration-form-options-saved:
+    Registration-form-attendees-save:
+    Registration-form-attendees-saved:
+    Registration-form-payment-save:
+    Registration-form-payment-saved:
