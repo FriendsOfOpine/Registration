@@ -41,7 +41,7 @@ class Application {
     }
 
     public function app () {
-        $this->route->get('/Registration/{eventSlug}', function ($eventSlug) {
+        $optionsCallback = function ($eventSlug, $ordreId=false) {
             $event = []; $order = []; $app = ''; $layout = '';
             if ($this->inputValidation('options', $eventSlug, false, $event, $order, $app, $layout) === false) {
                 return;
@@ -52,7 +52,9 @@ class Application {
                 bindingAdd('event', ['type' => 'array'], $event)->
                 template()->
                 write();
-        });
+        };
+        $this->route->get('/Registration/{eventSlug}', $optionsCallback);
+        $this->route->get('/Registration/{eventSlug}/options/{orderId}', $optionsCallback);
 
         $this->route->get('/Registration/{eventSlug}/attendees/{orderId}', function ($eventSlug, $orderId) {
             $event = []; $order = []; $app = ''; $layout = '';
