@@ -42,7 +42,7 @@ class Registration {
 		return $event;
 	}
 
-	pubic function orderFindByid ($orderId) {
+	public function orderFindByid ($orderId) {
 		return [];
 	}
 
