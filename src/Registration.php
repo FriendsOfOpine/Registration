@@ -42,6 +42,9 @@ class Registration {
 		return $event;
 	}
 
+	pubic function orderFindByid ($orderId) {
+		return [];
+	}
 
 	public function create ($registrantId, $eventId) {
 
