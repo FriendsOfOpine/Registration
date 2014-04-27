@@ -56,7 +56,7 @@ class Application {
 
         $this->route->get('/Registration/{eventSlug}/attendees/{orderId}', function ($eventSlug, $orderId) {
             $event = []; $order = []; $app = ''; $layout = '';
-            if ($this->inputValidation('attendees', $eventSlug, $orderId, $event, $order)) {
+            if ($this->inputValidation('attendees', $eventSlug, $orderId, $event, $order, $app, $layout)) {
                 return;
             }
             $this->separation->
@@ -69,7 +69,7 @@ class Application {
 
         $this->route->get('/Registration/{eventSlug}/payment/{orderId}', function ($eventSlug, $orderId) {
             $event = []; $order = []; $app = ''; $layout = '';
-            if ($this->inputValidation('payment', $eventSlug, $orderId, $event, $order)) {
+            if ($this->inputValidation('payment', $eventSlug, $orderId, $event, $order, $app, $layout)) {
                 return;
             }
             $this->separation->
@@ -82,7 +82,7 @@ class Application {
 
         $this->route->get('/Registration/{eventSlug}/receipt/{orderId}', function ($eventSlug, $orderId) {
             $event = []; $order = []; $app = ''; $layout = '';
-            if ($this->inputValidation('receipt', $eventSlug, $orderId, $event, $order)) {
+            if ($this->inputValidation('receipt', $eventSlug, $orderId, $event, $order, $app, $layout)) {
                 return;
             }
             $this->separation->
