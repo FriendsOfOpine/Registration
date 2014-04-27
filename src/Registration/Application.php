@@ -60,6 +60,12 @@ class Application {
                 return;
             }
             $this->separation->app($app)->layout($layout)->template()->write();
+            $this->separation->
+                app($app)->
+                layout($layout)->
+                addBinding('event', ['type' => 'array'], $event)->
+                template()->
+                write();
         });
 
         $this->route->get('/Registration/{eventSlug}/payment/{orderId}', function ($eventSlug, $orderId) {
@@ -67,7 +73,12 @@ class Application {
             if ($this->inputValidation('payment', $eventSlug, $orderId, $event, $order)) {
                 return;
             }
-            $this->separation->app($app)->layout($layout)->template()->write();
+            $this->separation->
+                app($app)->
+                layout($layout)->
+                addBinding('event', ['type' => 'array'], $event)->
+                template()->
+                write();
         });
 
         $this->route->get('/Registration/{eventSlug}/receipt/{orderId}', function ($eventSlug, $orderId) {
@@ -75,7 +86,12 @@ class Application {
             if ($this->inputValidation('receipt', $eventSlug, $orderId, $event, $order)) {
                 return;
             }
-            $this->separation->app($app)->layout($layout)->template()->write();
+            $this->separation->
+                app($app)->
+                layout($layout)->
+                addBinding('event', ['type' => 'array'], $event)->
+                template()->
+                write();
         });
     }
 
