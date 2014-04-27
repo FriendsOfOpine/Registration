@@ -34,6 +34,15 @@ class Registration {
 		$this->db = $db;
 	}
 
+	public function eventFindBySlug ($slug) {
+		$event = $this->db->collection('events')->findOne(['code_name' => $slug]);
+		if (!isset($event['_id'])) {
+			return false;
+		}
+		return $event;
+	}
+
+
 	public function create ($registrantId, $eventId) {
 
 	}

@@ -42,11 +42,16 @@ class Application {
 
     public function app () {
         $this->route->get('/Registration/{eventSlug}', function ($eventSlug) {
-            $event = []; $app = ''; $layout = '';
-            if ($this->inputValidation('options', $eventSlug, false, $event, false, $app, $layout)) {
+            $event = []; $order = []; $app = ''; $layout = '';
+            if ($this->inputValidation('options', $eventSlug, false, $event, $order, $app, $layout) === false) {
                 return;
             }
-            $this->separation->app($app)->layout($layout)->template()->write();
+            $this->separation->
+                app($app)->
+                layout($layout)->
+                addBinding('event', ['type' => 'array'], $event)->
+                template()->
+                write();
         });
 
         $this->route->get('/Registration/{eventSlug}/attendees/{orderId}', function ($eventSlug, $orderId) {
@@ -104,7 +109,12 @@ class Application {
     }
 
     private function error ($message) {
-        $this->separation->app()->layout('error')->template()->write();
+        $this->separation->
+            app('bundles/Registration/app/')->
+            layout('Registration/error')->
+            bindingAdd('error', ['type' => 'array'], $message)->
+            template()->
+            write();
     }
 
     public function build ($bundleRoot) {}
