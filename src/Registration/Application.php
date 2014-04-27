@@ -59,7 +59,6 @@ class Application {
             if ($this->inputValidation('attendees', $eventSlug, $orderId, $event, $order)) {
                 return;
             }
-            $this->separation->app($app)->layout($layout)->template()->write();
             $this->separation->
                 app($app)->
                 layout($layout)->
