@@ -49,7 +49,7 @@ class Application {
             $this->separation->
                 app($app)->
                 layout($layout)->
-                addBinding('event', ['type' => 'array'], $event)->
+                bindingAdd('event', ['type' => 'array'], $event)->
                 template()->
                 write();
         });
@@ -62,7 +62,7 @@ class Application {
             $this->separation->
                 app($app)->
                 layout($layout)->
-                addBinding('event', ['type' => 'array'], $event)->
+                bindingAdd('event', ['type' => 'array'], $event)->
                 template()->
                 write();
         });
@@ -75,7 +75,7 @@ class Application {
             $this->separation->
                 app($app)->
                 layout($layout)->
-                addBinding('event', ['type' => 'array'], $event)->
+                bindingAdd('event', ['type' => 'array'], $event)->
                 template()->
                 write();
         });
@@ -88,7 +88,7 @@ class Application {
             $this->separation->
                 app($app)->
                 layout($layout)->
-                addBinding('event', ['type' => 'array'], $event)->
+                bindingAdd('event', ['type' => 'array'], $event)->
                 template()->
                 write();
         });
