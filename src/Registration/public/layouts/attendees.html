@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="/css/semantic.css" type="text/css" />
+<title>Attendees Page</title>
+</head>
+
+<body>
+<div class="wrapper"> 
+    {{{header}}}
+    <div class="main_container inner_container">
+        <div class="container">
+            <div class="inner_left" style="width:800px;padding-top:10px;">
+                 <div class="ui four steps">
+                    <div class="ui disabled step">
+                        Options
+                    </div>
+                    <div class="ui active step">
+                        Attendees
+                    </div>
+                    <div class="ui disabled step">
+                        Payment
+                    </div>
+                    <div class="ui disabled step">
+                        Reciept
+                    </div>
+                </div>
+                <div style="padding-top:20px">
+                 Please provide the name for the event registration.
+                 </div>
+                <table class="ui celled table segment">
+                    <thead>
+                        <tr><th>Option</th>
+                        <th>Name</th>
+                        <th>Price</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          <td>Student</td>
+                          <td><select name="name">
+                              <option value="value1">Testing1</option> 
+                              <option value="value2">Testing2</option>
+                              </select>
+                            </td>
+                          <td>$20
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Lawyer</td>
+                          <td><select name="name">
+                              <option value="value1">Testing1</option> 
+                              <option value="value2">Testing2</option>
+                              </select>
+                          </td>
+                          <td>$40</td>
+                        </tr>
+                        <tr>
+                          <td>Teacher</td>
+                          <td><select name="name">
+                              <option value="value1">Testing1</option> 
+                              <option value="value2">Testing2</option>
+                              </select>
+                          </td>
+                          <td>$50</td>
+                        </tr>
+                      </tbody>
+                </table>
+                <div class="ui blue message">
+                  Total: $150.00
+                    <div class="ui animated button" style="margin-left:500px;">
+                    <div class="visible content">Next</div>
+                      <div class="hidden content">
+                         <i class="right arrow icon"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    {{{footer}}}
+</div>
+</body>
+</html>

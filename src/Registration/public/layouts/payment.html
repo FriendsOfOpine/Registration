@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="/css/semantic.css" type="text/css" />
+<title>Payment Page</title>
+</head>
+
+<body>
+<div class="wrapper"> 
+    {{{header}}}
+    <div class="main_container inner_container">
+        <div class="container">
+            <div class="inner_left" style="width:800px;padding-top:10px;">
+                 <div class="ui four steps">
+                    <div class="ui disabled step">
+                        Options
+                    </div>
+                    <div class="ui disabled step">
+                        Attendees
+                    </div>
+                    <div class="ui active step">
+                        Payment
+                    </div>
+                    <div class="ui disabled step">
+                        Reciept
+                    </div>
+                </div>
+                <div style="padding-top:20px">
+                Please review the following details for transaction.
+                </div>
+               <table class="ui celled table segment">
+                    <thead>
+                        <tr><th>Option</th>
+                        <th>Name</th>
+                        <th>Price</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          <td>Student</td>
+                          <td>Testing1 </td>
+                          <td>$20</td>
+                        </tr>
+                        <tr>
+                          <td>Lawyer</td>
+                          <td>Testing2</td>
+                          <td>$40</td>
+                        </tr>
+                        <tr>
+                          <td>Teacher</td>
+                          <td>Testing3</td>
+                          <td>$50</td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>Total</td>
+                          <td>$150</td>
+                        </tr>
+                      </tbody>
+                </table>
+                Billing Information
+                <div class="ui small form segment">
+                  <div class="two fields">
+                    <div class="field">
+                      <label>First Name</label>
+                      <input placeholder="First Name" type="text">
+                    </div>
+                    <div class="field">
+                      <label>Last Name</label>
+                      <input placeholder="Last Name" type="text">
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label>Email Address</label>
+                    <input placeholder="Email" type="text">
+                  </div>
+                  <div class="field">
+                    <label>Street Address</label>
+                    <input placeholder="Street Address" type="text">
+                  </div>
+                  <div class="three fields">
+                    <div class="field">
+                      <label>City</label>
+                      <input placeholder="City" type="text">
+                    </div>
+                    <div class="field">
+                      <label>State</label>
+                      <input placeholder="State" type="text">
+                    </div>
+                    <div class="field">
+                      <label>Zipcode</label>
+                      <input placeholder="Zipcode" type="text">
+                    </div>
+                  </div>
+                  <div class="field">
+                      <label>Card Number</label>
+                      <input placeholder="Card Number" type="text">
+                  </div>
+                  <div class="two fields">
+                    <div class="field">
+                      <label>Security Code (CVC)</label>
+                      <input placeholder="CVC" type="text">
+                    </div>
+                    <div class="date field">
+                      <label>Expiration Date</label>
+                      <input placeholder="expiration date" type="text">
+                    </div>
+                  </div>
+                <div class="ui blue small submit button">Submit</div>
+              </div>
+               
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    {{{footer}}}
+</div>
+</body>
+</html>
