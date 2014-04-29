@@ -42,35 +42,56 @@ class Registration {
 		return $event;
 	}
 
+	public function eventVerifyOptions ($event) {
+		if (!isset($event['registration_options']) || !is_array($event['registration_options']) || empty($event['registration_options'])) {
+			return false;
+		}
+		return true;
+	}
+
+	public function orderIdMake ($event) {
+		$document = $this->db->documentStage('registration_orders:' . $this->db->id(), [
+			'status' => 'open',
+			'event_id' => $event['_id'],
+			'event_slug' => $event['code_name']
+		]);
+		$document->upsert();
+		return $document->id();
+	}
+
 	public function orderFindByid ($orderId) {
-		return [];
+		return $this->db->documentStage('registration_orders:' . $orderId)->current();
 	}
 
-	public function create ($registrantId, $eventId) {
-
+	public function registrationOptionsValidate ($options) {
+		$quantity = 0;
+		foreach ($options as $key => $value) {
+			$quantity += $value;
+		}
+		if ($quantity == 0) {
+			return 'Quantity can not be zero';
+		}
+		return true;
 	}
 
-	public function findById ($id) {
-
+	public function registrationOptionsAddToOrder ($options, $orderURI) {
+		foreach ($options as $option => $value) {
+			if ($value == 0) {
+				continue;
+			}
+			for ($i=0; $i < $value; $i++) {
+				$this->registrationOptionAddOne($option, $orderURI);
+			}
+		}
 	}
 
-	public function optionAdd ($optionId, $quantity) {
-
-	}
-
-	public function attendeeExistingAdd ($userId) {
-
-	}
-
-	public function attendeeNewAdd ($attributes) {
-
-	}
-
-	public function order () {
-
-	}
-
-	public function payment () {
-		
+	private function registrationOptionAddOne ($dbURI, $orderURI) {
+		$registrationOption = $this->db->documentStage($dbURI)->current();
+		$orderOption = [
+			'title' => $registrationOption['title'],
+			'price' => $registrationOption['price'],
+			'name' => null
+		];
+		$this->db->documentStage($orderURI . ':attendees:' . (string)$this->db->id(), $orderOption)->upsert();
 	}
 }
