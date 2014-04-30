@@ -51,87 +51,87 @@ class Application {
             header('Location: /Registration/' . $eventSlug . '/options/' . $orderId);
         });
 
-        $this->route->get('/Registration/{eventSlug}/options/{orderId}', function ($eventSlug, $ordrerId) {
-            $event = []; $order = []; $app = ''; $layout = '';
-            if ($this->inputValidation('options', $eventSlug, $ordrerId, $event, $order, $app, $layout) === false) {
+        $this->route->get('/Registration/{eventSlug}/options/{orderId}', function ($eventSlug, $orderId) {
+            $data = [];
+            if ($this->inputValidation('options', $eventSlug, $orderId, $data) === false) {
                 return;
             }
             $this->separation->
-                app($app)->
-                layout($layout)->
-                bindingAdd('data', ['type' => 'array'], ['event' => $event, 'order' => $order])->
+                app($data['app'])->
+                layout($data['layout'])->
+                bindingAdd('data', ['type' => 'array'], $data)->
                 template()->
                 write();
         });
 
         $this->route->get('/Registration/{eventSlug}/attendees/{orderId}', function ($eventSlug, $orderId) {
-            $event = []; $order = []; $app = ''; $layout = '';
-            if ($this->inputValidation('attendees', $eventSlug, $orderId, $event, $order, $app, $layout)) {
+            $data = [];
+            if ($this->inputValidation('attendees', $eventSlug, $orderId, $data) === false) {
                 return;
             }
             $this->separation->
-                app($app)->
-                layout($layout)->
-                bindingAdd('event', ['type' => 'array'], $event)->
+                app($data['app'])->
+                layout($data['layout'])->
+                bindingAdd('data', ['type' => 'array'], $data)->
                 template()->
                 write();
         });
 
         $this->route->get('/Registration/{eventSlug}/payment/{orderId}', function ($eventSlug, $orderId) {
-            $event = []; $order = []; $app = ''; $layout = '';
-            if ($this->inputValidation('payment', $eventSlug, $orderId, $event, $order, $app, $layout)) {
+            $data = [];
+            if ($this->inputValidation('payment', $eventSlug, $orderId, $data) === false) {
                 return;
             }
             $this->separation->
-                app($app)->
-                layout($layout)->
-                bindingAdd('event', ['type' => 'array'], $event)->
+                app($data['app'])->
+                layout($data['layout'])->
+                bindingAdd('data', ['type' => 'array'], $data)->
                 template()->
                 write();
         });
 
         $this->route->get('/Registration/{eventSlug}/receipt/{orderId}', function ($eventSlug, $orderId) {
-            $event = []; $order = []; $app = ''; $layout = '';
-            if ($this->inputValidation('receipt', $eventSlug, $orderId, $event, $order, $app, $layout)) {
+            $data = [];
+            if ($this->inputValidation('receipt', $eventSlug, $orderId, $data) === false) {
                 return;
             }
             $this->separation->
-                app($app)->
-                layout($layout)->
-                bindingAdd('event', ['type' => 'array'], $event)->
+                app($data['app'])->
+                layout($data['layout'])->
+                bindingAdd('data', ['type' => 'array'], $data)->
                 template()->
                 write();
         });
     }
 
-    private function inputValidation ($mode, $eventSlug, $orderId, &$event=false, &$order=false, &$app=false, &$layout=false) {
-        $event = $this->registration->eventFindBySlug($eventSlug);
-        if ($event === false) {
+    private function inputValidation ($mode, $eventSlug, $orderId, &$data) {
+        $data['event'] = $this->registration->eventFindBySlug($eventSlug);
+        if ($data['event'] === false) {
             $this->error('Unknown event');
             return false;
         }
-        if ($this->registration->eventVerifyOptions($event) === false) {
+        if ($this->registration->eventVerifyOptions($data['event']) === false) {
             $this->error('Event has no registration options');
             return false;
         }
-        $order = $this->registration->orderFindById($orderId);
-        if ($order === false) {
+        $data['order'] = $this->registration->orderFindById($orderId);
+        if ($data['order'] === false) {
             $this->error('Invalid order.');
             return false;
         }
         if (in_array($mode, ['attendees', 'payment'])) {
-            if (isset($order['status']) == 'completed') {
+            if (isset($data['order']['status']) && $data['order']['status'] == 'completed') {
                 $this->error('Order has been completed.');
                 return false;
             }
         }
-        $app = 'bundles/Registration/app/' . $mode;
-        $layout = 'Registration/' . $mode;
-        if (!empty($event['config_' . $mode . '_app'])) {
-            $app = $event['config_' . $mode . '_app'];
+        $data['app'] = 'bundles/Registration/app/' . $mode;
+        $data['layout'] = 'Registration/' . $mode;
+        if (!empty($data['event']['config_' . $mode . '_app'])) {
+            $data['app'] = $event['config_' . $mode . '_app'];
         }
         if (!empty($event['config_' . $mode . '_layout'])) {
-            $layout = $event['config_' . $mode . '_layout'];
+            $data['layout'] = $event['config_' . $mode . '_layout'];
         }
     }
 

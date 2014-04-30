@@ -3,6 +3,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="/css/semantic.css" type="text/css" />
+<link rel="stylesheet" href="/css/fields/fieldBuild.css" type="text/css" />
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script src="/js/Registration/registration.js"></script>
+<script src="/js/formXHR.js"></script>
+<script src="/js/formHelperSemantic.js"></script>
+<script src="/js/fields/fieldBuild.js"></script>
 <title>Attendees Page</title>
 </head>
 
@@ -26,59 +33,44 @@
                         Reciept
                     </div>
                 </div>
-                <div style="padding-top:20px">
-                 Please provide the name for the event registration.
-                 </div>
-                <table class="ui celled table segment">
-                    <thead>
-                        <tr><th>Option</th>
-                        <th>Name</th>
-                        <th>Price</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                          <td>Student</td>
-                          <td><select name="name">
-                              <option value="value1">Testing1</option> 
-                              <option value="value2">Testing2</option>
-                              </select>
-                            </td>
-                          <td>$20
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Lawyer</td>
-                          <td><select name="name">
-                              <option value="value1">Testing1</option> 
-                              <option value="value2">Testing2</option>
-                              </select>
-                          </td>
-                          <td>$40</td>
-                        </tr>
-                        <tr>
-                          <td>Teacher</td>
-                          <td><select name="name">
-                              <option value="value1">Testing1</option> 
-                              <option value="value2">Testing2</option>
-                              </select>
-                          </td>
-                          <td>$50</td>
-                        </tr>
-                      </tbody>
-                </table>
+                
+                <div style="padding-top:20px">Please provide the name for the event registration.</div>
+                
+                <form data-xhr="true" action="/Registration/form/options" method="post">
+                    <table class="ui celled table segment">
+                        <thead>
+                            <tr><th>Option</th>
+                            <th>Name</th>
+                            <th>Price</th></tr>
+                        </thead>
+                        <tbody>
+                            {{#each data.order.attendees}}
+                            <tr>
+                                <td>{{title}}</td>
+                                <td>
+                                    <select data-controlled="0" data-multiple="0" placeholder="ABC" class="selectize-tags" name="attendees[name][{{dbURI}}]">
+                                        <option value="value1">Testing1</option> 
+                                        <option value="value2">Testing2</option>
+                                    </select>
+                                </td>
+                                <td>${{price}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </form>
                 <div class="ui blue message">
-                  Total: $150.00
+                    Total: ${{data.order.total}}
                     <div class="ui animated button" style="margin-left:500px;">
-                    <div class="visible content">Next</div>
-                      <div class="hidden content">
-                         <i class="right arrow icon"></i>
-                      </div>
+                        <div class="visible content">Next</div>
+                        <div class="hidden content">
+                            <i class="right arrow icon"></i>
+                        </div>
                     </div>
-                  </div>
                 </div>
             </div>
-            <div class="clear"></div>
         </div>
+        <div class="clear"></div>
     </div>
     {{{footer}}}
 </div>
