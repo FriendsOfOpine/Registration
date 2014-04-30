@@ -53,7 +53,12 @@ class Registration {
 		$document = $this->db->documentStage('registration_orders:' . $this->db->id(), [
 			'status' => 'open',
 			'event_id' => $event['_id'],
-			'event_slug' => $event['code_name']
+			'event_slug' => $event['code_name'],
+			'subtotal' => 0,
+			'discount' => 0,
+			'tax' => 0,
+			'shipping' => 0,
+			'total' => 0
 		]);
 		$document->upsert();
 		return $document->id();
@@ -75,6 +80,7 @@ class Registration {
 	}
 
 	public function registrationOptionsAddToOrder ($options, $orderURI) {
+		$this->db->documentStage($orderURI, ['attendees' => []])->upsert();
 		foreach ($options as $option => $value) {
 			if ($value == 0) {
 				continue;
@@ -83,6 +89,18 @@ class Registration {
 				$this->registrationOptionAddOne($option, $orderURI);
 			}
 		}
+	}
+
+	public function registrationOrderTotal ($orderId) {
+		$order = $this->db->documentStage('registration_orders:' . $orderId)->current();
+		$subtotal = 0;
+		foreach ($order['attendees'] as $attendee) {
+			$subtotal += $attendee['price'];
+		}
+		$order->upsert([
+			'subtotal' => $subtotal,
+			'total' => $subtotal + $order['shipping'] + $order['tax'] - $order['discount']
+		]);
 	}
 
 	private function registrationOptionAddOne ($dbURI, $orderURI) {
