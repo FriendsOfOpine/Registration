@@ -11,22 +11,25 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase {
         $container = new Container($root, $root . '/container.yml');
         $this->registration = $container->registration;
         $this->db = $container->db;
-    }
 
-    //eventbyslug
+        //eventbyslug//
     $this->db->collection('events')->update(
-        ['_id' => $this->events],
+        ['_id' => $this->eventsID],
         [
-            '_id' => $this->event,
-            'code_name' => 'Event'])
+            '_id' => $this->eventsID,
+            'code_name' => 'event']
+            );
+
+    }
 
     public function testRegistration () {
         $this->assertTrue(true);
     }
 
-
-    public function testEventBySlug () {
+     public function testEventBySlug () {
         $result = $this->event->code_name($this->event);
         $this->assertTrue($result);
     }
+
+
 }
