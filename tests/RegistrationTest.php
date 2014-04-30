@@ -13,7 +13,20 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase {
         $this->db = $container->db;
     }
 
+    //eventbyslug
+    $this->db->collection('events')->update(
+        ['_id' => $this->events],
+        [
+            '_id' => $this->event,
+            'code_name' => 'Event'])
+
     public function testRegistration () {
         $this->assertTrue(true);
+    }
+
+
+    public function testEventBySlug () {
+        $result = $this->event->code_name($this->event);
+        $this->assertTrue($result);
     }
 }
