@@ -88,7 +88,9 @@ class Application {
             $this->separation->
                 app($data['app'])->
                 layout($data['layout'])->
-                bindingAdd('data', ['type' => 'array'], $data)->
+                args('form', [
+                    'id' => $orderId
+                ])->
                 template()->
                 write();
         });

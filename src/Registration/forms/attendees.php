@@ -23,7 +23,7 @@ class attendees {
 		return [
 			'name'		=> 'total',
 			'display'	=> 'Registration\Field\Total',
-			'required' 	=> true
+			'required' 	=> false
 		];
 	}
 
