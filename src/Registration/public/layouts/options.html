@@ -1,16 +1,15 @@
 <!doctype html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="/css/semantic.css" type="text/css" />
-<script src="/js/jquery.min.js"></script>
-<script src="/js/jquery.form.js"></script>
-<script src="/js/Registration/registration.js"></script>
-<script src="/js/formXHR.js"></script>
-<script src="/js/formHelperSemantic.js"></script>
-<title>Registration Options</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="/css/semantic.css" type="text/css" />
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.form.js"></script>
+    <script src="/js/Registration/registration.js"></script>
+    <script src="/js/formXHR.js"></script>
+    <script src="/js/formHelperSemantic.js"></script>
+    <title>Registration Options</title>
 </head>
-
 <body>
 <div class="wrapper"> 
     {{{header}}}
@@ -32,38 +31,7 @@
                     </div>
                 </div>
                 <div style="padding-top:20px">Choose the options with the assigned prices listed below!</div>
-                <form data-xhr="true" action="/Registration/form/options" method="post">
-                    <table class="ui celled table segment">
-                        <thead>
-                            <tr><th>Choose an Option</th>
-                            <th>Price</th>
-                            <th>Quantity</th></tr>
-                        </thead>
-                        <tbody>
-                            {{#each data.event.registration_options}}
-                            <tr>
-                                <td>{{title}}</td>
-                                <td>{{price}}</td>
-                                <td><select class="registration-quantity" data-price="{{price}}" name="options[quantity][{{dbURI}}]">
-                                    <option value="0">Select</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option> 
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option> 
-                                    <option value="8">8</option>
-                                    <option value="9">9</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                    <input type="hidden" name="options[id]" value="{{data.order.dbURI}}" />
-                    <input type="hidden" name="options[event_slug]" value="{{data.event.code_name}}" />
-                </form>
+                {{{form}}}
                 <div class="ui blue message">
                     Total: $<span class="registration-total"></span>
                     <div class="ui animated button blue form-submit" style="margin-left:500px;">

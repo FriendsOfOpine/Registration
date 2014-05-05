@@ -12,7 +12,7 @@
     <div class="main_container inner_container">
         <div class="container">
             <div class="inner_left" style="width:800px;padding-top:10px;">
-                 <div class="ui four steps">
+                <div class="ui four steps">
                     <div class="ui disabled step">
                         Options
                     </div>
@@ -26,35 +26,25 @@
                         Reciept
                     </div>
                 </div>
-                <div style="padding-top:20px">
-                Please review the following details for transaction.
-                </div>
-               <table class="ui celled table segment">
+                <div style="padding-top:20px">Please review the following details for transaction.</div>
+                <table class="ui celled table segment">
                     <thead>
                         <tr><th>Option</th>
                         <th>Name</th>
                         <th>Price</th></tr>
                     </thead>
                     <tbody>
+                        {{#each data.order.attendees}}
                         <tr>
-                          <td>Student</td>
-                          <td>Testing1 </td>
-                          <td>$20</td>
+                            <td>{{title}}</td>
+                            <td>{{name}}</td>
+                            <td>${{price}}</td>
                         </tr>
-                        <tr>
-                          <td>Lawyer</td>
-                          <td>Testing2</td>
-                          <td>$40</td>
-                        </tr>
-                        <tr>
-                          <td>Teacher</td>
-                          <td>Testing3</td>
-                          <td>$50</td>
-                        </tr>
+                        {{/each}}
                         <tr>
                           <td></td>
                           <td>Total</td>
-                          <td>$150</td>
+                          <td>${{data.order.total}}</td>
                         </tr>
                       </tbody>
                 </table>

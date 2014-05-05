@@ -36,38 +36,7 @@
                 
                 <div style="padding-top:20px">Please provide the name for the event registration.</div>
                 
-                <form data-xhr="true" action="/Registration/form/options" method="post">
-                    <table class="ui celled table segment">
-                        <thead>
-                            <tr><th>Option</th>
-                            <th>Name</th>
-                            <th>Price</th></tr>
-                        </thead>
-                        <tbody>
-                            {{#each data.order.attendees}}
-                            <tr>
-                                <td>{{title}}</td>
-                                <td>
-                                    <select data-controlled="0" data-multiple="0" placeholder="ABC" class="selectize-tags" name="attendees[name][{{dbURI}}]">
-                                        <option value="value1">Testing1</option> 
-                                        <option value="value2">Testing2</option>
-                                    </select>
-                                </td>
-                                <td>${{price}}</td>
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </form>
-                <div class="ui blue message">
-                    Total: ${{data.order.total}}
-                    <div class="ui animated button" style="margin-left:500px;">
-                        <div class="visible content">Next</div>
-                        <div class="hidden content">
-                            <i class="right arrow icon"></i>
-                        </div>
-                    </div>
-                </div>
+                {{{form}}}
             </div>
         </div>
         <div class="clear"></div>

@@ -48,7 +48,7 @@ class Application {
                 return false;
             }
             $orderId = $this->registration->orderIdMake($event);
-            header('Location: /Registration/' . $eventSlug . '/options/' . $orderId);
+            header('Location: /Registration/' . $eventSlug . '/options/registration_orders:' . $orderId);
         });
 
         $this->route->get('/Registration/{eventSlug}/options/{orderId}', function ($eventSlug, $orderId) {
@@ -59,7 +59,9 @@ class Application {
             $this->separation->
                 app($data['app'])->
                 layout($data['layout'])->
-                bindingAdd('data', ['type' => 'array'], $data)->
+                args('form', [
+                    'id' => $orderId
+                ])->
                 template()->
                 write();
         });
@@ -72,8 +74,9 @@ class Application {
             $this->separation->
                 app($data['app'])->
                 layout($data['layout'])->
-                bindingAdd('data', ['type' => 'array'], $data)->
-                template()->
+                args('form', [
+                    'id' => $orderId
+                ])->template()->
                 write();
         });
 

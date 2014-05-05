@@ -50,7 +50,11 @@ class Registration {
 	}
 
 	public function orderIdMake ($event) {
-		$document = $this->db->documentStage('registration_orders:' . $this->db->id(), [
+		$id = $this->db->id();
+		foreach ($event['registration_options'] as &$option) {
+			$option['dbURI'] = str_replace('events:' . (string)$event['_id'], 'registration_orders:' . (string)$id, $option['dbURI']);
+		}
+		$document = $this->db->documentStage('registration_orders:' . $id, [
 			'status' => 'open',
 			'event_id' => $event['_id'],
 			'event_slug' => $event['code_name'],
@@ -58,13 +62,17 @@ class Registration {
 			'discount' => 0,
 			'tax' => 0,
 			'shipping' => 0,
-			'total' => 0
+			'total' => 0,
+			'registration_options' => $event['registration_options']
 		]);
 		$document->upsert();
 		return $document->id();
 	}
 
 	public function orderFindByid ($orderId) {
+		if (substr_count($orderId, ':') > 0) {
+			$orderId = explode(':', $orderId)[1];
+		}
 		return $this->db->documentStage('registration_orders:' . $orderId)->current();
 	}
 
@@ -81,26 +89,34 @@ class Registration {
 
 	public function registrationOptionsAddToOrder ($options, $orderURI) {
 		$this->db->documentStage($orderURI, ['attendees' => []])->upsert();
-		foreach ($options as $option => $value) {
-			if ($value == 0) {
+		foreach ($options as $option => $quantity) {
+			if ($quantity == 0) {
 				continue;
 			}
-			for ($i=0; $i < $value; $i++) {
+			$this->registrationOptionSetQuantity($option, $quantity);
+			for ($i=0; $i < $quantity; $i++) {
 				$this->registrationOptionAddOne($option, $orderURI);
 			}
 		}
 	}
 
 	public function registrationOrderTotal ($orderId) {
-		$order = $this->db->documentStage('registration_orders:' . $orderId)->current();
+		$order = $this->db->documentStage('registration_orders:' . $orderId);
+		$current = $order->current();
 		$subtotal = 0;
-		foreach ($order['attendees'] as $attendee) {
+		foreach ($current['attendees'] as $attendee) {
 			$subtotal += $attendee['price'];
 		}
-		$order->upsert([
+		$totals = [
 			'subtotal' => $subtotal,
-			'total' => $subtotal + $order['shipping'] + $order['tax'] - $order['discount']
-		]);
+			'total' => $subtotal + $current['shipping'] + $current['tax'] - $current['discount']
+		];
+		$order->upsert($totals);
+		return $totals;
+	}
+
+	private function registrationOptionSetQuantity ($optionDbUri, $quantity) {
+		$this->db->documentStage($optionDbUri, ['quantity' => $quantity])->upsert();
 	}
 
 	private function registrationOptionAddOne ($dbURI, $orderURI) {
@@ -111,5 +127,11 @@ class Registration {
 			'name' => null
 		];
 		$this->db->documentStage($orderURI . ':attendees:' . (string)$this->db->id(), $orderOption)->upsert();
+	}
+
+	public function registrationAttendeesSet ($attendees) {
+		foreach ($attendees as $dbURI => $name) {
+			$this->db->documentStage($dbURI, ['name' => $name])->upsert();
+		}
 	}
 }

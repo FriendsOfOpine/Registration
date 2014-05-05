@@ -1,0 +1,23 @@
+<form data-xhr="true" action="/Registration/form/attendees" method="post">
+    <table class="ui celled table segment">
+        <thead>
+            <tr><th>Option</th>
+            <th>Name</th>
+            <th>Price</th></tr>
+        </thead>
+        <tbody>
+            {{{name}}}
+        </tbody>
+    </table>
+    {{{id}}}
+    {{{event_slug}}}
+</form>
+<div class="ui blue message">
+    Total: ${{{total}}}
+    <div class="ui animated button blue form-submit" style="margin-left:500px;">
+        <div class="visible content">Next</div>
+        <div class="hidden content">
+            <i class="right arrow icon"></i>
+        </div>
+    </div>
+</div>

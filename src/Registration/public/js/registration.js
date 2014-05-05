@@ -11,7 +11,7 @@ $(document).ready(function () {
 
 var RegistrationCalculation = function () {
 	var total = 0;
-	$('.registration-quantity').each(function () {
+	$('form.options select.registration-quantity').each(function () {
 		total += $(this).attr('data-price') * $(this).val();
 	});
 	$('.registration-total').html(total);

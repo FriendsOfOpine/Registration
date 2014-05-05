@@ -4,6 +4,8 @@ topics:
     Registration-form-options-saved:
         OptionsSave: ['post', 'registration']
     Registration-form-attendees-save:
+        AttendeesValidate: ['post', 'registration']
     Registration-form-attendees-saved:
+        AttendeesSave: ['post', 'registration']
     Registration-form-payment-save:
     Registration-form-payment-saved:

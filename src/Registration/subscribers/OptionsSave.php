@@ -8,5 +8,5 @@ return function ($context, $post, $registration) {
 	$registration->registrationOptionsAddToOrder($document['quantity'], $document['id']);
 	$registration->registrationOrderTotal($orderId);
 	$context['formObject']->after = 'redirect';
-	$context['formObject']->redirect = '/Registration/' . $document['event_slug'] . '/attendees/' . $orderId;
+	$context['formObject']->redirect = '/Registration/' . $document['event_slug'] . '/attendees/registration_orders:' . $orderId;
 };
