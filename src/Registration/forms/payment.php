@@ -144,6 +144,24 @@ class payment {
 		];
 	}
 
+	function telephoneField () {
+		return [
+			'name' 		=> 'telephone',
+			'label' 	=> 'Phone Number',
+			'required' 	=> false,
+			'display' 	=> 'InputText'	
+		];
+	}
+
+	function cardTypeField () {
+		return [
+			'name' 		=> 'card_type',
+			'label' 	=> 'Card Type',
+			'required' 	=> true,
+			'display' 	=> 'InputText'	
+		];
+	}
+
 	function cardNumberField () {
 		return [
 			'name' 		=> 'credit_card',
