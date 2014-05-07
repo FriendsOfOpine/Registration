@@ -1,0 +1,10 @@
+js:
+
+binding:
+    header:
+       url: '%dataAPI%/header'
+       type: 'html'
+    form:
+        url: '%dataAPI%/Registration/json-form/attendees'
+        partial: 'Registration/forms/attendees.hbs'
+        type: 'Form'

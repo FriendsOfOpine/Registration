@@ -1,7 +1,7 @@
 <?php
 namespace Registration\Form;
 
-class payments {
+class payment {
 	public function __construct ($field) {
 		$this->field = $field;
 	}
@@ -10,6 +10,14 @@ class payments {
 		'key'			=> '_id'
 	];
 	public $after = 'redirect';
+
+	function nameField() {
+		return [
+			'name'		=> 'name',
+			'display'	=> 'Registration\Field\Summary',
+			'required' 	=> false
+		];
+	}
 
 	function first_nameField () {
         return [

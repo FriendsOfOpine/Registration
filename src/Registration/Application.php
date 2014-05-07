@@ -30,6 +30,7 @@ class Application {
     private $root;
     private $bundleRoot;
     private $registration;
+    private $authentication;
 
     public function __construct ($container, $root, $bundleRoot) {
         $this->route = $container->route;
@@ -38,6 +39,7 @@ class Application {
         $this->bundleRoot = $bundleRoot;
         $this->formRoute = $container->formRoute;
         $this->registration = $container->registration;
+        $this->authentication = $container->authentication;
     }
 
     public function app () {
@@ -46,6 +48,9 @@ class Application {
             if ($event === false) {
                 $this->error('Unknown event');
                 return false;
+            }
+            if (isset($event['login_required']) && $event['login_required'] == 't') {
+                $this->authentication->checkAndRedirect();
             }
             $orderId = $this->registration->orderIdMake($event);
             header('Location: /Registration/' . $eventSlug . '/options/registration_orders:' . $orderId);
@@ -130,8 +135,8 @@ class Application {
                 return false;
             }
         }
-        $data['app'] = 'bundles/Registration/app/' . $mode;
-        $data['layout'] = 'Registration/' . $mode;
+        $data['app'] = 'bundles/Registration/app/forms/' . $mode;
+        $data['layout'] = 'Registration/forms/' . $mode;
         if (!empty($data['event']['config_' . $mode . '_app'])) {
             $data['app'] = $event['config_' . $mode . '_app'];
         }

@@ -25,113 +25,146 @@
 namespace Opine;
 
 class Registration {
-	private $db;
-	private $current = false;
-	private $eventId = false;
-	private $registrantId = false;
+    private $db;
+    private $current = false;
+    private $eventId = false;
+    private $registrantId = false;
 
-	public function __construct ($db) {
-		$this->db = $db;
-	}
+    public function __construct ($db) {
+        $this->db = $db;
+    }
 
-	public function eventFindBySlug ($slug) {
-		$event = $this->db->collection('events')->findOne(['code_name' => $slug]);
-		if (!isset($event['_id'])) {
-			return false;
-		}
-		return $event;
-	}
+    public function eventFindBySlug ($slug) {
+        $event = $this->db->collection('events')->findOne(['code_name' => $slug]);
+        if (!isset($event['_id'])) {
+            return false;
+        }
+        return $event;
+    }
 
-	public function eventVerifyOptions ($event) {
-		if (!isset($event['registration_options']) || !is_array($event['registration_options']) || empty($event['registration_options'])) {
-			return false;
-		}
-		return true;
-	}
+    public function eventVerifyOptions ($event) {
+        if (!isset($event['registration_options']) || !is_array($event['registration_options']) || empty($event['registration_options'])) {
+            return false;
+        }
+        return true;
+    }
 
-	public function orderIdMake ($event) {
-		$id = $this->db->id();
-		foreach ($event['registration_options'] as &$option) {
-			$option['dbURI'] = str_replace('events:' . (string)$event['_id'], 'registration_orders:' . (string)$id, $option['dbURI']);
-		}
-		$document = $this->db->documentStage('registration_orders:' . $id, [
-			'status' => 'open',
-			'event_id' => $event['_id'],
-			'event_slug' => $event['code_name'],
-			'subtotal' => 0,
-			'discount' => 0,
-			'tax' => 0,
-			'shipping' => 0,
-			'total' => 0,
-			'registration_options' => $event['registration_options']
-		]);
-		$document->upsert();
-		return $document->id();
-	}
+    public function orderIdMake ($event) {
+        $id = $this->db->id();
+        foreach ($event['registration_options'] as &$option) {
+            $option['dbURI'] = str_replace('events:' . (string)$event['_id'], 'registration_orders:' . (string)$id, $option['dbURI']);
+        }
+        $document = $this->db->documentStage('registration_orders:' . $id, [
+            'status' => 'open',
+            'event_id' => $event['_id'],
+            'event_slug' => $event['code_name'],
+            'subtotal' => 0,
+            'discount' => 0,
+            'tax' => 0,
+            'shipping' => 0,
+            'total' => 0,
+            'registration_options' => $event['registration_options']
+        ]);
+        $document->upsert();
+        return $document->id();
+    }
 
-	public function orderFindByid ($orderId) {
-		if (substr_count($orderId, ':') > 0) {
-			$orderId = explode(':', $orderId)[1];
-		}
-		return $this->db->documentStage('registration_orders:' . $orderId)->current();
-	}
+    public function orderFindByid ($orderId) {
+        if (substr_count($orderId, ':') > 0) {
+            $orderId = explode(':', $orderId)[1];
+        }
+        return $this->db->documentStage('registration_orders:' . $orderId)->current();
+    }
 
-	public function registrationOptionsValidate ($options) {
-		$quantity = 0;
-		foreach ($options as $key => $value) {
-			$quantity += $value;
-		}
-		if ($quantity == 0) {
-			return 'Quantity can not be zero';
-		}
-		return true;
-	}
+    public function registrationOptionsValidate ($options) {
+        $quantity = 0;
+        foreach ($options as $key => $value) {
+            $quantity += $value;
+        }
+        if ($quantity == 0) {
+            return 'Quantity can not be zero';
+        }
+        return true;
+    }
 
-	public function registrationOptionsAddToOrder ($options, $orderURI) {
-		$this->db->documentStage($orderURI, ['attendees' => []])->upsert();
-		foreach ($options as $option => $quantity) {
-			if ($quantity == 0) {
-				continue;
-			}
-			$this->registrationOptionSetQuantity($option, $quantity);
-			for ($i=0; $i < $quantity; $i++) {
-				$this->registrationOptionAddOne($option, $orderURI);
-			}
-		}
-	}
+    public function registrationOptionsAddToOrder ($options, $orderURI) {
+        $this->db->documentStage($orderURI, ['attendees' => []])->upsert();
+        foreach ($options as $option => $quantity) {
+            if ($quantity == 0) {
+                continue;
+            }
+            $this->registrationOptionSetQuantity($option, $quantity);
+            for ($i=0; $i < $quantity; $i++) {
+                $this->registrationOptionAddOne($option, $orderURI);
+            }
+        }
+    }
 
-	public function registrationOrderTotal ($orderId) {
-		$order = $this->db->documentStage('registration_orders:' . $orderId);
-		$current = $order->current();
-		$subtotal = 0;
-		foreach ($current['attendees'] as $attendee) {
-			$subtotal += $attendee['price'];
-		}
-		$totals = [
-			'subtotal' => $subtotal,
-			'total' => $subtotal + $current['shipping'] + $current['tax'] - $current['discount']
-		];
-		$order->upsert($totals);
-		return $totals;
-	}
+    public function registrationOrderTotal ($orderId) {
+        $order = $this->db->documentStage('registration_orders:' . $orderId);
+        $current = $order->current();
+        $subtotal = 0;
+        foreach ($current['attendees'] as $attendee) {
+            $subtotal += $attendee['price'];
+        }
+        $totals = [
+            'subtotal' => $subtotal,
+            'total' => $subtotal + $current['shipping'] + $current['tax'] - $current['discount']
+        ];
+        $order->upsert($totals);
+        return $totals;
+    }
 
-	private function registrationOptionSetQuantity ($optionDbUri, $quantity) {
-		$this->db->documentStage($optionDbUri, ['quantity' => $quantity])->upsert();
-	}
+    private function registrationOptionSetQuantity ($optionDbUri, $quantity) {
+        $this->db->documentStage($optionDbUri, ['quantity' => $quantity])->upsert();
+    }
 
-	private function registrationOptionAddOne ($dbURI, $orderURI) {
-		$registrationOption = $this->db->documentStage($dbURI)->current();
-		$orderOption = [
-			'title' => $registrationOption['title'],
-			'price' => $registrationOption['price'],
-			'name' => null
-		];
-		$this->db->documentStage($orderURI . ':attendees:' . (string)$this->db->id(), $orderOption)->upsert();
-	}
+    private function registrationOptionAddOne ($dbURI, $orderURI) {
+        $registrationOption = $this->db->documentStage($dbURI)->current();
+        $orderOption = [
+            'title' => $registrationOption['title'],
+            'price' => $registrationOption['price'],
+            'name' => null
+        ];
+        $this->db->documentStage($orderURI . ':attendees:' . (string)$this->db->id(), $orderOption)->upsert();
+    }
 
-	public function registrationAttendeesSet ($attendees) {
-		foreach ($attendees as $dbURI => $name) {
-			$this->db->documentStage($dbURI, ['name' => $name])->upsert();
-		}
-	}
+    public function registrationAttendeesSet ($attendees) {
+        foreach ($attendees as $dbURI => $name) {
+            $this->db->documentStage($dbURI, ['name' => $name])->upsert();
+        }
+    }
+
+    public function authenticatedUserToRegistrationOrder ($orderId) {
+        //this takes the billing address, name, phone, email and pre-sets it for the order
+    }
+
+    public function billingAddressSet ($orderId, $addressLine1, $addressLine2='', $city, $state, $zip, $country='US') {
+        $this->db->documentStage('registration_orders:' . $orderId, [
+            'address' => $addressLine1,
+            'address2' => $addressLine2,
+            'city' => $city,
+            'state' => $state,
+            'zipcode' => $zipcode,
+            'country' => $country
+        ])->update();
+    }
+
+    public function contactSet ($orderId, $firstName, $lastName, $phone, $email) {
+        $this->db->documentStage('registration_orders:' . $orderId, [
+            'first_name' => $firstName,
+            'lastName' => $lastName,
+            'phone' => $phone,
+            'email' => $email
+        ])->update();
+    }
+
+    public function paymentInfoSet ($orderId, $cardNumber, $expirationMonth, $expirationYear, $cardType) {
+        $this->db->documentStage('registration_orders:' . $orderId, [
+            'card_last4' => substr($cardNumber, -4),
+            'card_expiration_month' => $expirationMonth,
+            'card_expiration_year' => $expirationYear,
+            'card_type' => $card_type
+        ])->update();
+    }
 }
