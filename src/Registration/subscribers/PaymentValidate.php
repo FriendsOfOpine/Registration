@@ -12,10 +12,16 @@ return function ($context, $post, $registration, $financial) {
     }
     
     //get total from order
+    $total = $registration->registrationOrderTotal($orderId)['total'];
 
     //check card expiration date is in future
 
     //process card
+    /*
+    if ($financial->payment ($locationId, $customerId, $operatorId, $orderId, $description, $methods, $paymentInfo, $billingInfo, $response)) {
+
+    }
+    */
 
     $post->statusSaved();
 };
