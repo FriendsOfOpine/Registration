@@ -55,6 +55,16 @@
     </div>
 
     <div class="field">
+        <label>Address2</label>
+        <div class="ui left labeled input">
+            {{{address2}}}
+            <div class="ui corner label">
+                <i class="icon asterisk"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
         <label>City</label>
         <div class="ui left labeled input">
             {{{city}}}
@@ -85,6 +95,26 @@
     </div>
 
     <div class="field">
+        <label>Phone Number</label>
+        <div class="ui left labeled input">
+            {{{telephone}}}
+            <div class="ui corner label">
+                <i class="icon asterisk"></i>
+            </div>
+        </div>
+    </div>
+
+     <div class="field">
+        <label>Credit Card Type</label>
+        <div class="ui left labeled input">
+            {{{card_type}}}
+            <div class="ui corner label">
+                <i class="icon asterisk"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
         <label>Credit Card</label>
         <div class="ui left labeled input">
             {{{credit_card}}}
@@ -107,7 +137,8 @@
     <div class="field">
         <label>Expiration Date</label>
         <div class="ui left labeled input">
-            {{{expiration_date}}}
+            {{{#MongoDate format="m" field="expiration_date"}}}
+            {{{#MongoDate format="d" field="expiration_date"}}}
             <div class="ui corner label">
                 <i class="icon asterisk"></i>
             </div>
