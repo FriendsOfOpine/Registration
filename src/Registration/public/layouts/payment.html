@@ -26,29 +26,7 @@
                         Reciept
                     </div>
                 </div>
-                <div style="padding-top:20px">Please review the following details for transaction.</div>
-                <table class="ui celled table segment">
-                    <thead>
-                        <tr><th>Option</th>
-                        <th>Name</th>
-                        <th>Price</th></tr>
-                    </thead>
-                    <tbody>
-                        {{#each data.order.attendees}}
-                        <tr>
-                            <td>{{title}}</td>
-                            <td>{{name}}</td>
-                            <td>${{price}}</td>
-                        </tr>
-                        {{/each}}
-                        <tr>
-                          <td></td>
-                          <td>Total</td>
-                          <td>${{data.order.total}}</td>
-                        </tr>
-                      </tbody>
-                </table>
-                
+
                 {{{form}}}
                
                 </div>
