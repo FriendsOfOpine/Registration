@@ -1,18 +1,6 @@
-<div style="padding-top:20px">Please review the following details for transaction.</div>
-<table class="ui celled table segment">
-    <thead>
-        <tr><th>Option</th>
-        <th>Name</th>
-        <th>Price</th></tr>
-    </thead>
-    <tbody>
-        {{{name}}}
-    </tbody>
-</table>
-
 <h1>payments</h1>
 
-<form class="ui form segment" data-xhr="true" method="post" action="/Registration/form/payment">
+<form class="ui form segment" data-xhr="true" method="post">
 
     <div class="field">
         <label>First Name</label>
@@ -55,16 +43,6 @@
     </div>
 
     <div class="field">
-        <label>Address2</label>
-        <div class="ui left labeled input">
-            {{{address2}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="field">
         <label>City</label>
         <div class="ui left labeled input">
             {{{city}}}
@@ -95,26 +73,6 @@
     </div>
 
     <div class="field">
-        <label>Phone Number</label>
-        <div class="ui left labeled input">
-            {{{telephone}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
-            </div>
-        </div>
-    </div>
-
-     <div class="field">
-        <label>Credit Card Type</label>
-        <div class="ui left labeled input">
-            {{{card_type}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="field">
         <label>Credit Card</label>
         <div class="ui left labeled input">
             {{{credit_card}}}
@@ -137,15 +95,23 @@
     <div class="field">
         <label>Expiration Date</label>
         <div class="ui left labeled input">
-            {{{#MongoDate format="m" field="expiration_date"}}}
-            {{{#MongoDate format="d" field="expiration_date"}}}
+            {{{expiration_date}}}
             <div class="ui corner label">
                 <i class="icon asterisk"></i>
             </div>
         </div>
     </div>
 
-    {{{event_slug}}}
+    <div class="field">
+        <label>Event Slug</label>
+        <div class="ui left labeled input">
+            {{{event_slug}}}
+            <div class="ui corner label">
+                <i class="icon asterisk"></i>
+            </div>
+        </div>
+    </div>
+
     {{{id}}}
     <input type="submit" class="ui blue submit button" value="Submit" />
 </form>
