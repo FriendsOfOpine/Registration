@@ -12,8 +12,12 @@ return function ($context, $post, $registration, $person) {
     }
 
     //add activity to user
+    $person->activityAdd('Registration', 'Registered for event: ' . $document['title']);
 
     //finalize order
+    $registation->billingAddressSet($orderId, $addressLine1, $addressLine2, $city, $state, $zip, $country);
+    $registration->contactSet($orderId, $firstName, $lastName, $phone, $email);
+    $registration->paymentInfoSet ($orderId, $cardNumber, $expirationMonth, $expirationYear, $cardType);
 
     //redirect to receipt
     $context['formObject']->after = 'redirect';

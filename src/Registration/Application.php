@@ -135,8 +135,8 @@ class Application {
                 return false;
             }
         }
-        $data['app'] = 'bundles/Registration/app/' . $mode;
-        $data['layout'] = 'Registration/' . $mode;
+        $data['app'] = 'bundles/Registration/app/forms/' . $mode;
+        $data['layout'] = 'Registration/forms/' . $mode;
         if (!empty($data['event']['config_' . $mode . '_app'])) {
             $data['app'] = $event['config_' . $mode . '_app'];
         }
