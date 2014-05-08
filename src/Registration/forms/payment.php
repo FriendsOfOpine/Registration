@@ -190,21 +190,50 @@ class payment {
 		];
 	}
 
-	function expirationDateField() {
+	function expirationMonthField() {
 		return [
-			'name'			=> 'expiration_date',
-			'required'		=> true,
-			'display'		=> 'InputDatePicker',
-			'transformIn'	=> function ($data) {
-				return new \MongoDate(strtotime($data));
-			},
-			'transformOut'	=> function ($data) {
-				return date('m/d/Y', $data->sec);
-			},
-			'default'		=> function () {
-				return date('m/d/Y');
-			}
-		];
+	        'name' => 'expired_month',
+	        'label' => 'Expired Month',
+	        'required' => false,
+	        'options' =>[
+	                   '<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>'
+						],
+			'display' => 'Select'
+			];
+	}
+
+	function expirationYearField() {
+		return [
+	        'name' => 'expired_year',
+	        'label' => 'Expired Year',
+	        'required' => false,
+	        'options' =>[
+	                   '<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>'
+						],
+			'display' => 'Select'
+			];
 	}
 
 	function eventSlugField () {
