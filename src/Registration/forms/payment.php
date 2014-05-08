@@ -53,6 +53,16 @@ class payment {
 		];
 	}
 
+	function address2Field () {
+		return [
+			'name' 		=> 'address2',
+			'label' 	=> 'Address Continued',
+			'required' 	=> true,
+			'display' 	=> 'InputText'	
+		];
+	}
+
+
 	function cityField () {
 		return [
 			'name' 		=> 'city',

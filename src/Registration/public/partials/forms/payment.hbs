@@ -10,142 +10,83 @@
     </tbody>
 </table>
 
-<h1>payments</h1>
+<h1>Billing Information</h1>
 
 <form class="ui form segment" data-xhr="true" method="post" action="/Registration/form/payment">
-
-    <div class="field">
-        <label>First Name</label>
-        <div class="ui left labeled input">
-            {{{first_name}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
-            </div>
-        </div>
+    
+    <div class="ui warning message">
+        <div class="header">Error in form:</div>
+        <ul class="list"></ul>
     </div>
 
-    <div class="field">
-        <label>Last Name</label>
-        <div class="ui left labeled input">
-            {{{last_name}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
+    <div class="ui small form segment">
+        <div class="two fields">
+            <div class="field">
+              <label>First Name</label>
+              {{{first_name}}}
+            </div>
+            <div class="field">
+              <label>Last Name</label>
+              {{{last_name}}}
             </div>
         </div>
-    </div>
-
-    <div class="field">
-        <label>Email</label>
-        <div class="ui left labeled input">
+        <div class="field">
+            <label>Email</label>
             {{{email}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
-            </div>
         </div>
-    </div>
-
-    <div class="field">
-        <label>Address</label>
-        <div class="ui left labeled input">
+        <div class="field">
+            <label>Street Address</label>
             {{{address}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
-            </div>
         </div>
-    </div>
-
-    <div class="field">
-        <label>Address2</label>
-        <div class="ui left labeled input">
+        <div class="field">
+            <label>Street Address Continued</label>
             {{{address2}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
-            </div>
         </div>
-    </div>
-
-    <div class="field">
-        <label>City</label>
-        <div class="ui left labeled input">
-            {{{city}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="field">
-        <label>State</label>
-        <div class="ui left labeled input">
-            {{{state}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="field">
-        <label>Zipcode</label>
-        <div class="ui left labeled input">
-            {{{zipcode}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="field">
-        <label>Phone Number</label>
-        <div class="ui left labeled input">
+        <div class="field">
+            <label>Phone Number</label>
             {{{telephone}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
+        </div>
+        <div class="three fields">
+            <div class="field">
+              <label>City</label>
+              {{{city}}}
+            </div>
+            <div class="field">
+              <label>State</label>
+              {{{state}}}
+            </div>
+            <div class="field">
+              <label>Zipcode</label>
+              {{{zipcode}}}
             </div>
         </div>
-    </div>
-
-     <div class="field">
-        <label>Credit Card Type</label>
-        <div class="ui left labeled input">
-            {{{card_type}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
+        <div class="two fields">
+            <div class="field">
+                <label>Card Type</label>
+                {{{card_type}}}
+            </div>
+            <div class="field">
+                <label>Card Number</label>
+                {{{credit_card}}}
             </div>
         </div>
-    </div>
-
-    <div class="field">
-        <label>Credit Card</label>
-        <div class="ui left labeled input">
-            {{{credit_card}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
+        <div class="three fields">
+            <div class="date field">
+              <label>Expiration Year</label>
+              {{{#MongoDate format="y" field="expiration_date"}}}
             </div>
-        </div>
-    </div>
-
-    <div class="field">
-        <label>Security Code</label>
-        <div class="ui left labeled input">
-            {{{security_code}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
+            <div class="date field">
+              <label>Expiration Month</label>
+              {{{#MongoDate format="m" field="expiration_date"}}}
             </div>
-        </div>
-    </div>
-
-    <div class="field">
-        <label>Expiration Date</label>
-        <div class="ui left labeled input">
-            {{{#MongoDate format="m" field="expiration_date"}}}
-            {{{#MongoDate format="d" field="expiration_date"}}}
-            <div class="ui corner label">
-                <i class="icon asterisk"></i>
+            <div class="field">
+              <label>Security Code (CVC)</label>
+              {{{security_code}}}
             </div>
-        </div>
-    </div>
+          </div>
+          {{{event_slug}}}
+          {{{id}}}
+        <div class="ui blue small submit button">Submit</div>
+      </div>
 
-    {{{event_slug}}}
-    {{{id}}}
-    <input type="submit" class="ui blue submit button" value="Submit" />
 </form>
