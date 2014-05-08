@@ -57,7 +57,7 @@ class payment {
 		return [
 			'name' 		=> 'address2',
 			'label' 	=> 'Address Continued',
-			'required' 	=> true,
+			'required' 	=> false,
 			'display' 	=> 'InputText'	
 		];
 	}
@@ -158,7 +158,7 @@ class payment {
 		return [
 			'name' 		=> 'telephone',
 			'label' 	=> 'Phone Number',
-			'required' 	=> false,
+			'required' 	=> true,
 			'display' 	=> 'InputText'	
 		];
 	}
@@ -194,7 +194,7 @@ class payment {
 		return [
 	        'name' => 'expired_month',
 	        'label' => 'Expired Month',
-	        'required' => false,
+	        'required' => true,
 	        'options' =>[
 	                   '<option value="1">1</option>
 						<option value="2">2</option>
@@ -217,7 +217,7 @@ class payment {
 		return [
 	        'name' => 'expired_year',
 	        'label' => 'Expired Year',
-	        'required' => false,
+	        'required' => true,
 	        'options' =>[
 	                   '<option value="1">1</option>
 						<option value="2">2</option>
