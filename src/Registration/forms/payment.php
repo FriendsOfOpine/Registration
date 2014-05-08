@@ -165,10 +165,13 @@ class payment {
 
 	function cardTypeField () {
 		return [
-			'name' 		=> 'card_type',
+			'name' 		=> 'creditcard_type',
 			'label' 	=> 'Card Type',
 			'required' 	=> true,
-			'display' 	=> 'InputText'	
+			'display' 	=> 'Select',
+			'options'   => function () {
+				return ['Visa', 'Mastercard', 'Discover', 'American Express'];
+			}	
 		];
 	}
 
@@ -183,7 +186,7 @@ class payment {
 
 	function securityCodeField () {
 		return [
-			'name' 		=> 'security_code',
+			'name' 		=> 'creditcard_security_code',
 			'label' 	=> 'Security Code',
 			'required' 	=> true,
 			'display' 	=> 'InputText'	
@@ -192,48 +195,31 @@ class payment {
 
 	function expirationMonthField() {
 		return [
-	        'name' => 'expiration_month',
+	        'name' => 'creditcard_expiration_month',
 	        'label' => 'Month',
 	        'required' => true,
-	        'options' =>[
-	                   '<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
-						<option value="11">11</option>
-						<option value="12">12</option>'
-						],
+	        'options' => function () {
+	        	$months = range(1, 12);
+	        	$monthsOut = [];
+	        	foreach ($months as $month) {
+	        		$monthsOut[$month] = str_pad($month, 2, "0", STR_PAD_LEFT);
+	        	}
+	        	return $monthsOut;
+	        },
 			'display' => 'Select'
-			];
+		];
 	}
 
 	function expirationYearField() {
 		return [
-	        'name' => 'expiration_year',
+	        'name' => 'creditcard_expiration_year',
 	        'label' => 'Year',
 	        'required' => true,
-	        'options' =>[
-	                   '<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
-						<option value="11">11</option>
-						<option value="12">12</option>'
-						],
+	        'options' => function () {
+	        	return range (date('Y'), (date('Y') + 20));
+	        },
 			'display' => 'Select'
-			];
+		];
 	}
 
 	function eventSlugField () {

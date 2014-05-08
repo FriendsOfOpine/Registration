@@ -1,8 +1,0 @@
-js:
-
-binding:
-    payments:
-        url: '%dataAPI%/json-form/payments'
-        args: []
-        partial: 'forms/payments.hbs'
-        type: 'Form'

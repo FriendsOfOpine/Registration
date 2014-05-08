@@ -10,4 +10,4 @@ topics:
     Registration-form-payment-save:
         PaymentValidate: ['post', 'registration', 'financial', 'authentication']
     Registration-form-payment-saved:
-        PaymentSave: ['post', 'registration', 'person']
+        PaymentSave: ['post', 'registration', 'financial', 'person']

@@ -17,29 +17,16 @@ return function ($context, $post, $registration, $financial, $authentication) {
     $customerId = false;
     $authentication->check($customerId);
     $description = 'Event Registration';
-    $methods = ['creditcard'];
-    $paymentInfo = [
-        'number' => $document['creditcard_number'],
-        'expirationMonth' => $document['expiration_month'],
-        'expirationMonth' => $document['expiration_year'],
-        'cvv' => $document['security_code']
-    ];
-    $billingInfo = [
-        'first_name' => $document['first_name'],
-        'last_name' => $document['last_name'],
-        'phone' => $document['phone'],
-        'email' => $document['email'],
-        'address' => $document['address'],
-        'address2' => $document['address2'],
-        'city' => $document['city'],
-        'state' => $document['state'],
-        'zipcode' => $document['zipcode'],
-        'country' => (isset($document['country']) ? $document['country'] : 'US')
-    ];
-    if ($financial->payment (1, $customerId, $operatorId, $orderId, $description, $methods, $paymentInfo, $billingInfo, $paymentResponse)) {
-        $post->errorFieldSet($context['formMarker'], $paymentResponse);
-        return;
-    } else {
-        $post->statusSaved();
+    if (!isset($document['payment_method'])) {
+        $document['payment_method'] = 'creditcard';
     }
+    $methods = [['type' => $document['payment_method'], 'amount' => $total]];
+    $paymentInfo = $financial->arrayToPaymentInfo((array)$document);
+    $billingInfo = $financial->arrayToBillingInfo((array)$document);
+    if ($financial->payment (1, $customerId, $operatorId, $orderId, $description, $methods, $paymentInfo, $billingInfo, $paymentResponse) !== true) {
+        $post->errorFieldSet($context['formMarker'], $paymentResponse['errorMessage']);
+        $registration->statusError($orderId, $paymentResponse['errorMessage']);
+        return;
+    }
+    $post->statusSaved();
 };

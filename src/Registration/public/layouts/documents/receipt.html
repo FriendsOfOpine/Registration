@@ -61,16 +61,16 @@
                 Billing Information
                 <div class="ui small form segment">
                     <div class="field">
-                      <label>Nick Young</label>
+                      <label>{{{data.order.first_name}}} {{{data.order.last_name}}}</label>
                     </div>
                   <div class="field">
-                    <label>Email@test.com</label>
+                    <label>{{{data.order.email}}}</label>
                   </div>
                   <div class="field">
-                    <label>1000 test street</label>
+                    <label>{{{data.order.address}}}</label>
                   </div>
                     <div class="field">
-                      <label>Queens, New York - 11304</label>
+                      <label>{{{data.order.city}}}, {{{data.order.state}}} - {{{data.order.zipcode}}}</label>
                     </div>
               </div>
                

@@ -137,6 +137,10 @@ class Application {
         }
         $data['app'] = 'bundles/Registration/app/forms/' . $mode;
         $data['layout'] = 'Registration/forms/' . $mode;
+        if ($mode == 'receipt') {
+            $data['app'] = str_replace('/forms/', '/documents/', $data['app']);
+            $data['layout'] = str_replace('/forms/', '/documents/', $data['layout']);
+        }
         if (!empty($data['event']['config_' . $mode . '_app'])) {
             $data['app'] = $event['config_' . $mode . '_app'];
         }

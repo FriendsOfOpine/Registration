@@ -63,17 +63,26 @@ class Registration {
             'tax' => 0,
             'shipping' => 0,
             'total' => 0,
-            'registration_options' => $event['registration_options']
+            'registration_options' => $event['registration_options'],
+            'title' => $event['title']
         ]);
         $document->upsert();
         return $document->id();
+    }
+
+    public function statusComplete ($orderId) {
+        $this->db->documentStage('registration_orders:' . (string)$orderId, ['status' => 'complete'])->upsert();
+    }
+
+    public function statusError ($orderId, $message) {
+        $this->db->documentStage('registration_orders:' . (string)$orderId, ['status' => 'complete', 'error' => $message])->upsert();
     }
 
     public function orderFindByid ($orderId) {
         if (substr_count($orderId, ':') > 0) {
             $orderId = explode(':', $orderId)[1];
         }
-        return $this->db->documentStage('registration_orders:' . $orderId)->current();
+        return $this->db->documentStage('registration_orders:' . (string)$orderId)->current();
     }
 
     public function registrationOptionsValidate ($options) {
@@ -101,7 +110,7 @@ class Registration {
     }
 
     public function registrationOrderTotal ($orderId) {
-        $order = $this->db->documentStage('registration_orders:' . $orderId);
+        $order = $this->db->documentStage('registration_orders:' . (string)$orderId);
         $current = $order->current();
         $subtotal = 0;
         foreach ($current['attendees'] as $attendee) {
@@ -139,32 +148,20 @@ class Registration {
         //this takes the billing address, name, phone, email and pre-sets it for the order
     }
 
-    public function billingAddressSet ($orderId, $addressLine1, $addressLine2='', $city, $state, $zip, $country='US') {
-        $this->db->documentStage('registration_orders:' . $orderId, [
-            'address' => $addressLine1,
-            'address2' => $addressLine2,
-            'city' => $city,
-            'state' => $state,
-            'zipcode' => $zipcode,
-            'country' => $country
-        ])->update();
+    public function billingAddressSet ($orderId, $address) {
+        $this->db->documentStage('registration_orders:' . (string)$orderId, $address)->upsert();
     }
 
     public function contactSet ($orderId, $firstName, $lastName, $phone, $email) {
-        $this->db->documentStage('registration_orders:' . $orderId, [
+        $this->db->documentStage('registration_orders:' . (string)$orderId, [
             'first_name' => $firstName,
             'lastName' => $lastName,
             'phone' => $phone,
-            'email' => $email
-        ])->update();
+            'email' => strtolower($email)
+        ])->upsert();
     }
 
-    public function paymentInfoSet ($orderId, $cardNumber, $expirationMonth, $expirationYear, $cardType) {
-        $this->db->documentStage('registration_orders:' . $orderId, [
-            'card_last4' => substr($cardNumber, -4),
-            'card_expiration_month' => $expirationMonth,
-            'card_expiration_year' => $expirationYear,
-            'card_type' => $card_type
-        ])->update();
+    public function paymentInfoSet ($orderId, $paymentInfo) {
+        $this->db->documentStage('registration_orders:' . (string)$orderId, $paymentInfo)->upsert();
     }
 }

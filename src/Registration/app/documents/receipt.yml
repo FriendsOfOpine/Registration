@@ -1,0 +1,6 @@
+js:
+
+binding:
+    header:
+       url: '%dataAPI%/header'
+       type: 'html'
