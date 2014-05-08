@@ -8,6 +8,6 @@ topics:
     Registration-form-attendees-saved:
         AttendeesSave: ['post', 'registration']
     Registration-form-payment-save:
-        PaymentValidate: ['post', 'registration', 'financial']
+        PaymentValidate: ['post', 'registration', 'financial', 'authentication']
     Registration-form-payment-saved:
         PaymentSave: ['post', 'registration', 'person']

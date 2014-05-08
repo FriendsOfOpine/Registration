@@ -1,5 +1,5 @@
 <?php
-return function ($context, $post, $registration, $financial) {
+return function ($context, $post, $registration, $financial, $authentication) {
     if (!isset($context['dbURI']) || empty($context['dbURI'])) {
         throw new \Exception('Context does not contain a dbURI');
     }
@@ -10,18 +10,20 @@ return function ($context, $post, $registration, $financial) {
     if ($document === false || empty($document)) {
         throw new \Exception('Document not found in post');
     }
-    
-    //get total from order
+    $orderId = array_pop(explode(':', $document['id']));
     $total = $registration->registrationOrderTotal($orderId)['total'];
+    $paymentResponse = [];
+    $customerId = false;
+    $authentication->check($customerId);
+    $description = 'Event Registration';
+    $methods = ['creditcard'];
+    $paymentInfo = [];
+    $billingInfo = [];
 
-    //check card expiration date is in future
-
-    //process card
-    /*
-    if ($financial->payment ($locationId, $customerId, $operatorId, $orderId, $description, $methods, $paymentInfo, $billingInfo, $response)) {
-
+    if ($financial->payment (1, $customerId, $operatorId, $orderId, $description, $methods, $paymentInfo, $billingInfo, $paymentResponse)) {
+        $post->errorFieldSet($context['formMarker'], $paymentResponse);
+        return;
+    } else {
+        $post->statusSaved();
     }
-    */
-
-    $post->statusSaved();
 };
