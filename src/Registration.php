@@ -155,7 +155,7 @@ class Registration {
     public function contactSet ($orderId, $firstName, $lastName, $phone, $email) {
         $this->db->documentStage('registration_orders:' . (string)$orderId, [
             'first_name' => $firstName,
-            'lastName' => $lastName,
+            'last_name' => $lastName,
             'phone' => $phone,
             'email' => strtolower($email)
         ])->upsert();
