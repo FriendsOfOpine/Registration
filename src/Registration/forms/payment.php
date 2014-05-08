@@ -156,7 +156,7 @@ class payment {
 
 	function telephoneField () {
 		return [
-			'name' 		=> 'telephone',
+			'name' 		=> 'phone',
 			'label' 	=> 'Phone Number',
 			'required' 	=> true,
 			'display' 	=> 'InputText'	
@@ -174,7 +174,7 @@ class payment {
 
 	function cardNumberField () {
 		return [
-			'name' 		=> 'credit_card',
+			'name' 		=> 'creditcard_number',
 			'label' 	=> 'Card Number',
 			'required' 	=> true,
 			'display' 	=> 'InputText'	
@@ -192,8 +192,8 @@ class payment {
 
 	function expirationMonthField() {
 		return [
-	        'name' => 'expired_month',
-	        'label' => 'Expired Month',
+	        'name' => 'expiration_month',
+	        'label' => 'Month',
 	        'required' => true,
 	        'options' =>[
 	                   '<option value="1">1</option>
@@ -215,8 +215,8 @@ class payment {
 
 	function expirationYearField() {
 		return [
-	        'name' => 'expired_year',
-	        'label' => 'Expired Year',
+	        'name' => 'expiration_year',
+	        'label' => 'Year',
 	        'required' => true,
 	        'options' =>[
 	                   '<option value="1">1</option>
