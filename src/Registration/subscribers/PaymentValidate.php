@@ -12,6 +12,7 @@ return function ($context, $post, $registration, $financial, $authentication) {
     }
     $orderId = array_pop(explode(':', $document['id']));
     $total = $registration->registrationOrderTotal($orderId)['total'];
+    $operatorId = false;
     $paymentResponse = [];
     $customerId = false;
     $authentication->check($customerId);
@@ -35,7 +36,6 @@ return function ($context, $post, $registration, $financial, $authentication) {
         'zipcode' => $document['zipcode'],
         'country' => (isset($document['country']) ? $document['country'] : 'US')
     ];
-
     if ($financial->payment (1, $customerId, $operatorId, $orderId, $description, $methods, $paymentInfo, $billingInfo, $paymentResponse)) {
         $post->errorFieldSet($context['formMarker'], $paymentResponse);
         return;
