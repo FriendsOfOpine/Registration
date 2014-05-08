@@ -53,6 +53,16 @@ class payment {
 		];
 	}
 
+	function address2Field () {
+		return [
+			'name' 		=> 'address2',
+			'label' 	=> 'Address Continued',
+			'required' 	=> true,
+			'display' 	=> 'InputText'	
+		];
+	}
+
+
 	function cityField () {
 		return [
 			'name' 		=> 'city',
@@ -139,6 +149,24 @@ class payment {
 		return [
 			'name' 		=> 'zipcode',
 			'label' 	=> 'Zipcode',
+			'required' 	=> true,
+			'display' 	=> 'InputText'	
+		];
+	}
+
+	function telephoneField () {
+		return [
+			'name' 		=> 'telephone',
+			'label' 	=> 'Phone Number',
+			'required' 	=> false,
+			'display' 	=> 'InputText'	
+		];
+	}
+
+	function cardTypeField () {
+		return [
+			'name' 		=> 'card_type',
+			'label' 	=> 'Card Type',
 			'required' 	=> true,
 			'display' 	=> 'InputText'	
 		];
