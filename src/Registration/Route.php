@@ -24,7 +24,7 @@
  */
 namespace Opine\Registration;
 
-class Application {
+class Route {
     private $route;
     private $separation;
     private $root;
@@ -42,7 +42,7 @@ class Application {
         $this->authentication = $container->authentication;
     }
 
-    public function app () {
+    public function paths () {
         $this->route->get('/Registration/{eventSlug}', function ($eventSlug) {
             $event = $this->registration->eventFindBySlug($eventSlug);
             if ($event === false) {
