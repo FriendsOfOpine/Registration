@@ -28,21 +28,19 @@ class Route {
     private $route;
     private $separation;
     private $root;
-    private $bundleRoot;
     private $registration;
     private $authentication;
 
-    public function __construct ($container, $root, $bundleRoot) {
-        $this->route = $container->route;
-        $this->separation = $container->separation;
+    public function __construct ($root, $route, $separation, $formRoute, $registration, $authentication) {
+        $this->route = $route;
+        $this->separation = $separation;
         $this->root = $root;
-        $this->bundleRoot = $bundleRoot;
-        $this->formRoute = $container->formRoute;
-        $this->registration = $container->registration;
-        $this->authentication = $container->authentication;
+        $this->formRoute = $formRoute;
+        $this->registration = $registration;
+        $this->authentication = $authentication;
     }
 
-    public function paths () {
+    public function paths ($bundleRoot='') {
         $this->route->get('/Registration/{eventSlug}', function ($eventSlug) {
             $event = $this->registration->eventFindBySlug($eventSlug);
             if ($event === false) {
@@ -163,4 +161,8 @@ class Route {
     private function authenticationBuild ($authorizations) {}
 
     public function upgrade ($bundleRoot) {}
+
+    public function location () {
+        return __DIR__;
+    }
 }
