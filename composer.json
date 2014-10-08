@@ -27,6 +27,14 @@
     "autoload": {
         "psr-4": {
             "Opine\\": "src\/"
-        }
+        },
+        "classmap": [
+            "src/Registration/forms",
+            "src/Registration/managers",
+            "src/Registration/collections",
+            "src/Registration/controllers",
+            "src/Registration/models",
+            "src/Registration/views"
+        ]
     }
 }

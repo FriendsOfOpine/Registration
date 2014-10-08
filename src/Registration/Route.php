@@ -26,134 +26,17 @@ namespace Opine\Registration;
 
 class Route {
     private $route;
-    private $separation;
-    private $root;
-    private $registration;
-    private $authentication;
 
-    public function __construct ($root, $route, $separation, $formRoute, $registration, $authentication) {
+    public function __construct ($route) {
         $this->route = $route;
-        $this->separation = $separation;
-        $this->root = $root;
-        $this->formRoute = $formRoute;
-        $this->registration = $registration;
-        $this->authentication = $authentication;
     }
 
-    public function paths ($bundleRoot='') {
-        $this->route->get('/Registration/{eventSlug}', function ($eventSlug) {
-            $event = $this->registration->eventFindBySlug($eventSlug);
-            if ($event === false) {
-                $this->error('Unknown event');
-                return false;
-            }
-            if (isset($event['login_required']) && $event['login_required'] == 't') {
-                $this->authentication->checkAndRedirect();
-            }
-            $orderId = $this->registration->orderIdMake($event);
-            header('Location: /Registration/' . $eventSlug . '/options/registration_orders:' . $orderId);
-        });
-
-        $this->route->get('/Registration/{eventSlug}/options/{orderId}', function ($eventSlug, $orderId) {
-            $data = [];
-            if ($this->inputValidation('options', $eventSlug, $orderId, $data) === false) {
-                return;
-            }
-            $this->separation->
-                app($data['app'])->
-                layout($data['layout'])->
-                args('form', [
-                    'id' => $orderId
-                ])->
-                template()->
-                write();
-        });
-
-        $this->route->get('/Registration/{eventSlug}/attendees/{orderId}', function ($eventSlug, $orderId) {
-            $data = [];
-            if ($this->inputValidation('attendees', $eventSlug, $orderId, $data) === false) {
-                return;
-            }
-            $this->separation->
-                app($data['app'])->
-                layout($data['layout'])->
-                args('form', [
-                    'id' => $orderId
-                ])->template()->
-                write();
-        });
-
-        $this->route->get('/Registration/{eventSlug}/payment/{orderId}', function ($eventSlug, $orderId) {
-            $data = [];
-            if ($this->inputValidation('payment', $eventSlug, $orderId, $data) === false) {
-                return;
-            }
-            $this->separation->
-                app($data['app'])->
-                layout($data['layout'])->
-                args('form', [
-                    'id' => $orderId
-                ])->
-                template()->
-                write();
-        });
-
-        $this->route->get('/Registration/{eventSlug}/receipt/{orderId}', function ($eventSlug, $orderId) {
-            $data = [];
-            if ($this->inputValidation('receipt', $eventSlug, $orderId, $data) === false) {
-                return;
-            }
-            $this->separation->
-                app($data['app'])->
-                layout($data['layout'])->
-                bindingAdd('data', ['type' => 'array'], $data)->
-                template()->
-                write();
-        });
-    }
-
-    private function inputValidation ($mode, $eventSlug, $orderId, &$data) {
-        $data['event'] = $this->registration->eventFindBySlug($eventSlug);
-        if ($data['event'] === false) {
-            $this->error('Unknown event');
-            return false;
-        }
-        if ($this->registration->eventVerifyOptions($data['event']) === false) {
-            $this->error('Event has no registration options');
-            return false;
-        }
-        $data['order'] = $this->registration->orderFindById($orderId);
-        if ($data['order'] === false) {
-            $this->error('Invalid order.');
-            return false;
-        }
-        if (in_array($mode, ['attendees', 'payment'])) {
-            if (isset($data['order']['status']) && $data['order']['status'] == 'completed') {
-                $this->error('Order has been completed.');
-                return false;
-            }
-        }
-        $data['app'] = 'bundles/Registration/app/forms/' . $mode;
-        $data['layout'] = 'Registration/forms/' . $mode;
-        if ($mode == 'receipt') {
-            $data['app'] = str_replace('/forms/', '/documents/', $data['app']);
-            $data['layout'] = str_replace('/forms/', '/documents/', $data['layout']);
-        }
-        if (!empty($data['event']['config_' . $mode . '_app'])) {
-            $data['app'] = $event['config_' . $mode . '_app'];
-        }
-        if (!empty($event['config_' . $mode . '_layout'])) {
-            $data['layout'] = $event['config_' . $mode . '_layout'];
-        }
-    }
-
-    private function error ($message) {
-        $this->separation->
-            app('bundles/Registration/app/')->
-            layout('Registration/error')->
-            bindingAdd('error', ['type' => 'array'], $message)->
-            template()->
-            write();
+    public function paths () {
+        $this->route->get('/Registration/{eventSlug}', 'registrationController@registration');
+        $this->route->get('/Registration/{eventSlug}/options/{orderId}', 'registrationController@options');
+        $this->route->get('/Registration/{eventSlug}/attendees/{orderId}', 'registrationController@attendees');
+        $this->route->get('/Registration/{eventSlug}/payment/{orderId}', 'registrationController@payment');
+        $this->route->get('/Registration/{eventSlug}/receipt/{orderId}', 'registrationController@receipt');
     }
 
     public function build ($bundleRoot) {}
@@ -162,7 +45,7 @@ class Route {
 
     public function upgrade ($bundleRoot) {}
 
-    public function location () {
+    public static function location () {
         return __DIR__;
     }
 }
