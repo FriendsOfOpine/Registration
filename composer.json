@@ -30,8 +30,6 @@
         },
         "classmap": [
             "src/Registration/forms",
-            "src/Registration/managers",
-            "src/Registration/collections",
             "src/Registration/controllers"
         ]
     }
