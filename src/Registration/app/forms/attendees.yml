@@ -1,10 +1,8 @@
-js:
-
-binding:
+regions:
     header:
-       url: '%dataAPI%/header'
+       url: '/header'
        type: 'html'
     form:
-        url: '%dataAPI%/Registration/json-form/attendees'
+        url: '/Registration/api/form/Attendees'
         partial: 'Registration/forms/attendees.hbs'
         type: 'Form'

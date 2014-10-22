@@ -1,6 +1,4 @@
-js:
-
-binding:
+regions:
     header:
        url: '%dataAPI%/header'
        type: 'html'

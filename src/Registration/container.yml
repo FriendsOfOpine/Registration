@@ -17,7 +17,7 @@ services:
         arguments: ['@db']
     registrationController:
         class:     'Opine\Registration\Controller'
-        arguments: ['%root%', '@separation', '@formRoute', '@registration', '@authentication']
+        arguments: ['%root%', '@layout', '@formRoute', '@registration', '@authentication']
     registrationRoute:
         class:      'Opine\Registration\Route'
         arguments: ['@route'] 

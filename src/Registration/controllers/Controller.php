@@ -2,12 +2,12 @@
 namespace Registration;
 
 class Controller {
-    private $separation;
+    private $layout;
     private $registration;
     private $authentication;
 
-    public function __construct ($separation, $formRoute, $registration, $authentication) {
-        $this->separation = $separation;
+    public function __construct ($layout, $formRoute, $registration, $authentication) {
+        $this->layout = $layout;
         $this->formRoute = $formRoute;
         $this->registration = $registration;
         $this->authentication = $authentication;
@@ -31,7 +31,7 @@ class Controller {
         if ($this->inputValidation('options', $eventSlug, $orderId, $data) === false) {
             return;
         }
-        $this->separation->
+        $this->layout->
             app($data['app'])->
             layout($data['layout'])->
             args('form', [
@@ -46,7 +46,7 @@ class Controller {
         if ($this->inputValidation('attendees', $eventSlug, $orderId, $data) === false) {
             return;
         }
-        $this->separation->
+        $this->layout->
             app($data['app'])->
             layout($data['layout'])->
             args('form', [
@@ -60,7 +60,7 @@ class Controller {
         if ($this->inputValidation('payment', $eventSlug, $orderId, $data) === false) {
             return;
         }
-        $this->separation->
+        $this->layout->
             app($data['app'])->
             layout($data['layout'])->
             args('form', [
@@ -75,10 +75,10 @@ class Controller {
         if ($this->inputValidation('receipt', $eventSlug, $orderId, $data) === false) {
             return;
         }
-        $this->separation->
+        $this->layout->
             app($data['app'])->
             layout($data['layout'])->
-            bindingAdd('data', ['type' => 'array'], $data)->
+            regionAdd('data', ['type' => 'array'], $data)->
             template()->
             write();
     }
@@ -119,10 +119,10 @@ class Controller {
     }
 
     private function error ($message) {
-        $this->separation->
+        $this->layout->
             app('bundles/Registration/app/')->
             layout('Registration/error')->
-            bindingAdd('error', ['type' => 'array'], $message)->
+            regionAdd('error', ['type' => 'array'], $message)->
             template()->
             write();
     }
