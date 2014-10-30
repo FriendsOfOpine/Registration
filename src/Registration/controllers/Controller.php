@@ -4,13 +4,11 @@ namespace Registration;
 class Controller {
     private $layout;
     private $registration;
-    private $authentication;
 
-    public function __construct ($layout, $formRoute, $registration, $authentication) {
+    public function __construct ($layout, $formRoute, $registration) {
         $this->layout = $layout;
         $this->formRoute = $formRoute;
         $this->registration = $registration;
-        $this->authentication = $authentication;
     }
 
 	public function registration ($eventSlug) {
@@ -20,7 +18,7 @@ class Controller {
             return false;
         }
         if (isset($event['login_required']) && $event['login_required'] == 't') {
-            $this->authentication->checkAndRedirect();
+            //$this->authentication->checkAndRedirect();
         }
         $orderId = $this->registration->orderIdMake($event);
         header('Location: /Registration/' . $eventSlug . '/options/registration_orders:' . $orderId);
