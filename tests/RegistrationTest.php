@@ -1,18 +1,23 @@
 <?php
 namespace Opine;
 
-class RegistrationTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit_Framework_TestCase;
+use Opine\Container\Service as Container;
+use Opine\Config\Service as Config;
+use MongoId;
+
+class RegistrationTest extends PHPUnit_Framework_TestCase {
     private $registration;
     private $db;
     private $eventID = '5314f7553698bb5228b15cc2';
 
     public function setup () {
-        date_default_timezone_set('UTC');
-        $root = __DIR__;
-        $container = new Container($root, $root . '/container.yml');
-        $this->registration = $container->registration;
-        $this->db = $container->db;
-        $this->eventID = new \MongoId($this->eventID);
+        $root = __DIR__ . '/../public';
+        $config = new Config($root);
+        $container = Container::instance($root, $config, $root . '/../config/container.yml');
+        $this->registration = $container->get('registration');
+        $this->db = $container->get('db');
+        $this->eventID = new MongoId($this->eventID);
 
         //eventbyslug//
         $this->db->collection('events')->update(

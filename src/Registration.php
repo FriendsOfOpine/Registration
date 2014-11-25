@@ -10,10 +10,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -54,7 +54,7 @@ class Registration {
         foreach ($event['registration_options'] as &$option) {
             $option['dbURI'] = str_replace('events:' . (string)$event['_id'], 'registration_orders:' . (string)$id, $option['dbURI']);
         }
-        $document = $this->db->documentStage('registration_orders:' . $id, [
+        $document = $this->db->document('registration_orders:' . $id, [
             'status' => 'open',
             'event_id' => $event['_id'],
             'event_slug' => $event['code_name'],
@@ -71,18 +71,18 @@ class Registration {
     }
 
     public function statusComplete ($orderId) {
-        $this->db->documentStage('registration_orders:' . (string)$orderId, ['status' => 'complete'])->upsert();
+        $this->db->document('registration_orders:' . (string)$orderId, ['status' => 'complete'])->upsert();
     }
 
     public function statusError ($orderId, $message) {
-        $this->db->documentStage('registration_orders:' . (string)$orderId, ['status' => 'complete', 'error' => $message])->upsert();
+        $this->db->document('registration_orders:' . (string)$orderId, ['status' => 'complete', 'error' => $message])->upsert();
     }
 
     public function orderFindByid ($orderId) {
         if (substr_count($orderId, ':') > 0) {
             $orderId = explode(':', $orderId)[1];
         }
-        return $this->db->documentStage('registration_orders:' . (string)$orderId)->current();
+        return $this->db->document('registration_orders:' . (string)$orderId)->current();
     }
 
     public function registrationOptionsValidate ($options) {
@@ -97,7 +97,7 @@ class Registration {
     }
 
     public function registrationOptionsAddToOrder ($options, $orderURI) {
-        $this->db->documentStage($orderURI, ['attendees' => []])->upsert();
+        $this->db->document($orderURI, ['attendees' => []])->upsert();
         foreach ($options as $option => $quantity) {
             if ($quantity == 0) {
                 continue;
@@ -110,7 +110,7 @@ class Registration {
     }
 
     public function registrationOrderTotal ($orderId) {
-        $order = $this->db->documentStage('registration_orders:' . (string)$orderId);
+        $order = $this->db->document('registration_orders:' . (string)$orderId);
         $current = $order->current();
         $subtotal = 0;
         foreach ($current['attendees'] as $attendee) {
@@ -125,22 +125,22 @@ class Registration {
     }
 
     private function registrationOptionSetQuantity ($optionDbUri, $quantity) {
-        $this->db->documentStage($optionDbUri, ['quantity' => $quantity])->upsert();
+        $this->db->document($optionDbUri, ['quantity' => $quantity])->upsert();
     }
 
     private function registrationOptionAddOne ($dbURI, $orderURI) {
-        $registrationOption = $this->db->documentStage($dbURI)->current();
+        $registrationOption = $this->db->document($dbURI)->current();
         $orderOption = [
             'title' => $registrationOption['title'],
             'price' => $registrationOption['price'],
             'name' => null
         ];
-        $this->db->documentStage($orderURI . ':attendees:' . (string)$this->db->id(), $orderOption)->upsert();
+        $this->db->document($orderURI . ':attendees:' . (string)$this->db->id(), $orderOption)->upsert();
     }
 
     public function registrationAttendeesSet ($attendees) {
         foreach ($attendees as $dbURI => $name) {
-            $this->db->documentStage($dbURI, ['name' => $name])->upsert();
+            $this->db->document($dbURI, ['name' => $name])->upsert();
         }
     }
 
@@ -149,11 +149,11 @@ class Registration {
     }
 
     public function billingAddressSet ($orderId, $address) {
-        $this->db->documentStage('registration_orders:' . (string)$orderId, $address)->upsert();
+        $this->db->document('registration_orders:' . (string)$orderId, $address)->upsert();
     }
 
     public function contactSet ($orderId, $firstName, $lastName, $phone, $email) {
-        $this->db->documentStage('registration_orders:' . (string)$orderId, [
+        $this->db->document('registration_orders:' . (string)$orderId, [
             'first_name' => $firstName,
             'last_name' => $lastName,
             'phone' => $phone,
@@ -162,6 +162,6 @@ class Registration {
     }
 
     public function paymentInfoSet ($orderId, $paymentInfo) {
-        $this->db->documentStage('registration_orders:' . (string)$orderId, $paymentInfo)->upsert();
+        $this->db->document('registration_orders:' . (string)$orderId, $paymentInfo)->upsert();
     }
 }

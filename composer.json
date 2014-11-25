@@ -1,5 +1,5 @@
 {
-    "name": "opine\/registration",
+    "name": "foo\/registration",
     "type": "library",
     "minimum-stability": "dev",
     "description": "Service for managing aspects of event registration",
@@ -29,8 +29,8 @@
             "Opine\\": "src\/"
         },
         "classmap": [
-            "src/Registration/forms",
-            "src/Registration/controllers"
+            "src/Registration/config/forms",
+            "src/Registration/app/controllers"
         ]
     }
 }
