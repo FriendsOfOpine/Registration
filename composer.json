@@ -1,8 +1,8 @@
 {
-    "name": "foo\/registration",
+    "name": "foo/registration",
     "type": "library",
     "minimum-stability": "dev",
-    "description": "Service for managing aspects of event registration",
+    "description": "Service and bundle for managing aspects of event registration",
     "keywords": [
         "registration",
         "Opine",
@@ -13,20 +13,21 @@
         {
             "name": "Ryan Mahoney",
             "email": "ryan@virtuecenter.com",
-            "homepage": "http:\/\/opine-php.org",
+            "homepage": "http://opine-php.org",
             "role": "Developer"
         }
     ],
     "require": {
         "php": ">=5.4.0",
-        "phpunit\/phpunit": "3.7.32",
-        "opine\/db": "dev-master",
-        "opine\/mail": "dev-master",
-        "opine\/container": "dev-master"
+        "phpunit/phpunit": "3.7.32",
+        "opine/db": "dev-master",
+        "opine/mail": "dev-master",
+        "opine/container": "dev-master",
+        "opine/interfaces": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "Opine\\": "src\/"
+            "Opine\\": "src/"
         },
         "classmap": [
             "src/Registration/config/forms",

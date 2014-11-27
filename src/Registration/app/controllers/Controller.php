@@ -1,11 +1,13 @@
 <?php
 namespace Registration;
 
+use Opine\Interfaces\Layout as LayoutInterface;
+
 class Controller {
     private $layout;
     private $registration;
 
-    public function __construct ($layout, $formRoute, $registration) {
+    public function __construct (LayoutInterface $layout, $formRoute, $registration) {
         $this->layout = $layout;
         $this->formRoute = $formRoute;
         $this->registration = $registration;
@@ -30,12 +32,11 @@ class Controller {
             return;
         }
         $this->layout->
-            app($data['app'])->
-            layout($data['layout'])->
+            config($data['app'])->
+            container($data['layout'])->
             args('form', [
                 'id' => $orderId
             ])->
-            template()->
             write();
     }
 
@@ -45,11 +46,11 @@ class Controller {
             return;
         }
         $this->layout->
-            app($data['app'])->
-            layout($data['layout'])->
+            config($data['app'])->
+            container($data['layout'])->
             args('form', [
                 'id' => $orderId
-            ])->template()->
+            ])->
             write();
     }
 
@@ -59,12 +60,11 @@ class Controller {
             return;
         }
         $this->layout->
-            app($data['app'])->
-            layout($data['layout'])->
+            config($data['app'])->
+            container($data['layout'])->
             args('form', [
                 'id' => $orderId
             ])->
-            template()->
             write();
     }
 
@@ -74,10 +74,9 @@ class Controller {
             return;
         }
         $this->layout->
-            app($data['app'])->
-            layout($data['layout'])->
-            regionAdd('data', ['type' => 'array'], $data)->
-            template()->
+            config($data['app'])->
+            container($data['layout'])->
+            region('data', ['type' => 'array', 'data' => $data])->
             write();
     }
 
@@ -118,10 +117,9 @@ class Controller {
 
     private function error ($message) {
         $this->layout->
-            app('bundles/Registration/app/')->
-            layout('Registration/error')->
-            regionAdd('error', ['type' => 'array'], $message)->
-            template()->
+            config('bundles/Registration/app/')->
+            container('Registration/error')->
+            region('error', ['type' => 'array', 'data' => $message])->
             write();
     }
 }
