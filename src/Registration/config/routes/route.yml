@@ -1,0 +1,7 @@
+route:
+    GET:
+        /Registration/{eventSlug}:                      registrationController@registration
+        /Registration/{eventSlug}/options/{orderId}:    registrationController@options
+        /Registration/{eventSlug}/attendees/{orderId}:  registrationController@attendees
+        /Registration/{eventSlug}/payment/{orderId}:    registrationController@payment
+        /Registration/{eventSlug}/receipt/{orderId}:    registrationController@receipt
